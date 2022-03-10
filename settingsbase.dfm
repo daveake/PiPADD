@@ -1,0 +1,94 @@
+inherited frmSettingsBase: TfrmSettingsBase
+  OnCreate = MiletusFormCreate
+  object pnlSettings: TWebPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 657
+    Height = 122
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    Color = clBlack
+  end
+  object pnlButtons: TWebPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 131
+    Width = 657
+    Height = 46
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 1
+    Color = clBlack
+    object btnCancel: TWebButton
+      AlignWithMargins = True
+      Left = 493
+      Top = 3
+      Width = 161
+      Height = 40
+      Align = alRight
+      Caption = 'Cancel'
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      OnClick = btnCancelClick
+    end
+    object btnSave: TWebButton
+      AlignWithMargins = True
+      Left = 326
+      Top = 3
+      Width = 161
+      Height = 40
+      Align = alRight
+      Caption = 'Save'
+      ChildOrder = 1
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+      OnClick = btnSaveClick
+    end
+  end
+  object pnlNotes: TWebPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 183
+    Width = 657
+    Height = 201
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alClient
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    ChildOrder = 2
+    Color = clBlack
+    Enabled = False
+    object WebMemo1: TWebMemo
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 651
+      Height = 195
+      TabStop = False
+      Align = alClient
+      AutoSize = False
+      BorderStyle = bsNone
+      Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -19
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      HeightPercent = 100.000000000000000000
+      ParentFont = False
+      SelLength = 0
+      SelStart = 0
+      ShowFocus = False
+      SpellCheck = False
+      WidthPercent = 100.000000000000000000
+    end
+  end
+end

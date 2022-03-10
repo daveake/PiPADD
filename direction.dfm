@@ -1,0 +1,317 @@
+inherited frmDirection: TfrmDirection
+  Width = 686
+  Height = 422
+  OnCreate = MiletusFormCreate
+  OnResize = MiletusFormResize
+  ClientHeight = 383
+  ClientWidth = 670
+  object WebPanel4: TWebPanel
+    Left = 380
+    Top = 63
+    Width = 102
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Distance:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebPanel3: TWebPanel
+    Left = 380
+    Top = 118
+    Width = 102
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Altitude:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebPanel6: TWebPanel
+    Left = 380
+    Top = 173
+    Width = 102
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Rate:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebPanel8: TWebPanel
+    Left = 380
+    Top = 228
+    Width = 102
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Land In:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebPanel10: TWebPanel
+    Left = 380
+    Top = 283
+    Width = 102
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Elevation:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Compass: TTMSFNCWidgetGauge
+    Left = 0
+    Top = 0
+    Width = 405
+    Height = 383
+    Margins.Left = 9
+    Margins.Top = 9
+    Margins.Right = 9
+    Margins.Bottom = 9
+    Align = alLeft
+    ParentDoubleBuffered = False
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Color = clBlack
+    DoubleBuffered = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGray
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    TabOrder = 12
+    Visible = False
+    Fill.Color = clBlack
+    Border.Kind = gskSolid
+    Border.Color = clBlack
+    MaximumValue = 360.000000000000000000
+    Digit.Color = clYellow
+    Digit.BackGroundColor = clBlack
+    Digit.Visible = False
+    OuterCircle.Color = clYellow
+    OuterCircle.Width = 0.030000000000000000
+    InnerCircle.Color = clBlack
+    OuterRim.Color = clYellow
+    OuterRim.Width = 2
+    Needle.Color = clYellow
+    Needle.ShineColor = clYellow
+    Needle.ShineColorTo = clYellow
+    Needle.OuterCenterColor = clYellow
+    Needle.OuterCenterColorTo = clYellow
+    Needle.InnerCenterColor = clYellow
+    Needle.InnerCenterColorTo = clYellow
+    Arc.Color = clBlack
+    Arc.Width = 0.030000000000000000
+    Arc.StartAngle = 0
+    Arc.StopAngle = 360
+    Arc.Threshold.Color = clBlack
+    Arc.Threshold.Center = 25.000000000000000000
+    Arc.Threshold.EndValue = 100.000000000000000000
+    DivisionCount = 8
+    DivisionColor = clYellow
+    SubDivisionColor = clYellow
+    GaugeValuesFormat = '0'
+    ValueFont.Charset = DEFAULT_CHARSET
+    ValueFont.Color = clYellow
+    ValueFont.Height = -16
+    ValueFont.Name = 'Segoe UI'
+    ValueFont.Style = []
+    ValueFormat = '0.0'
+    Animation = False
+    Sections = <>
+    OnGetValueText = CompassGetValueText
+    ExtraNeedles = <>
+  end
+  object pnlPosition: TWebPanel
+    Left = 407
+    Top = 8
+    Width = 255
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebPanel2: TWebPanel
+    Left = 352
+    Top = 8
+    Width = 42
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    Caption = 'Pos:'
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlDistance: TWebPanel
+    Left = 496
+    Top = 63
+    Width = 166
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlAltitude: TWebPanel
+    Left = 496
+    Top = 118
+    Width = 166
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlAscentRate: TWebPanel
+    Left = 496
+    Top = 173
+    Width = 166
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlTTL: TWebPanel
+    Left = 496
+    Top = 228
+    Width = 166
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlElevation: TWebPanel
+    Left = 496
+    Top = 283
+    Width = 166
+    Height = 49
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Anchors = [akTop, akRight]
+    BorderColor = clBlack
+    BorderStyle = bsNone
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -32
+    Font.Name = 'Swiss911 UCm BT'
+    Font.Style = []
+    ParentFont = False
+  end
+  object WebTimer1: TWebTimer
+    Enabled = False
+    Interval = 1
+    OnTimer = WebTimer1Timer
+    Left = 464
+    Top = 352
+  end
+end

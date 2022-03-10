@@ -1,0 +1,169 @@
+.gitattributes
+
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+* text=auto
+
+# Windows forced line-endings
+*.* text eol=crlf
+
+#
+## These files are binary and should be left untouched
+#
+
+# (binary is a macro for -text -diff)
+*.jpeg binary
+*.gif binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.pyc binary
+*.pdf binary
+*.ez binary
+*.bz2 binary
+*.swp binary
+
+#
+# Project files
+#
+
+# Delphi form module
+*.dfm  text
+
+# Delphi project options file
+*.dof  text
+
+# Desktop configuration
+*.dsk  binary
+
+#
+# General
+#
+
+# Text file
+*.txt  text
+
+# Gettext Portable Object
+*.po   binary
+
+# Backup
+*.bak  binary
+
+# Config file
+*.cfg  text
+
+# Compiled Help File - contains html. See also package chm
+*.chm  binary
+
+# Comma Separated Values text file format
+*.csv  text
+
+# Directly executable program
+*.exe  binary
+
+# Help file
+*.hlp  binary
+
+# Initialization file
+*.ini  text
+
+# OpenDocument text document
+*.odt  text
+
+# Portable Document Format
+*.pdf  text
+
+# PostScript
+*.ps   text
+
+# Rich Text Format text file
+*.rtf  text
+
+#
+# Image
+#
+
+# Portable network graphic
+*.png  binary
+
+# Bitmap
+*.bmp  binary
+
+# Icon
+*.ico  binary
+
+# Pixmap
+*.xpm  binary
+
+# Portable pixmap
+*.ppm  binary
+
+# Portable graymap
+*.pgm  binary
+
+# Portable bitmap
+*.pbm  binary
+
+# Lossy graphics file
+*.jpg  binary
+
+#
+# XML
+#
+
+*.xml  text
+*.dtd  text
+*.xsd  text
+*.xsl  text
+
+#
+# Web
+#
+
+# Hypertext Markup Language
+*.html text diff=html
+
+# Cascading style sheet
+*.css  text diff=css
+
+#
+# Archive
+#
+
+# tape archive
+*.tar  binary
+
+# archive file
+*.zip  binary
+
+#
+# Database
+#
+
+# Database file
+*.dbf  binary
+
+# Multiple index file
+*.mdx  binary
+
+#
+# Spreadsheet
+#
+
+# OpenOffice.org Calc spreadsheet File Format
+*.ods  binary
+
+# Microsoft Excel File Format
+*.xls  binary
+
+# Microsoft Office Open XML Excel File Format
+*.xlsx binary

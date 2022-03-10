@@ -1,0 +1,134 @@
+inherited frmSources: TfrmSources
+  OnCreate = MiletusFormCreate
+  object pnlLoRaHAT: TWebPanel
+    AlignWithMargins = True
+    Left = 0
+    Top = 0
+    Width = 663
+    Height = 122
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ElementID = 'pnlLoRaHAT'
+    HeightStyle = ssPercent
+    HeightPercent = 33.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlGPS: TWebPanel
+    AlignWithMargins = True
+    Left = 0
+    Top = 317
+    Width = 663
+    Height = 70
+    Margins.Left = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ElementID = 'pnlGPS'
+    HeightStyle = ssPercent
+    HeightPercent = 16.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alClient
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    ChildOrder = 4
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlHABLink: TWebPanel
+    AlignWithMargins = True
+    Left = 0
+    Top = 189
+    Width = 663
+    Height = 61
+    Margins.Left = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ElementID = 'pnlHABLink'
+    HeightStyle = ssPercent
+    HeightPercent = 16.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlLoRaSerial: TWebPanel
+    AlignWithMargins = True
+    Left = 0
+    Top = 125
+    Width = 663
+    Height = 61
+    Margins.Left = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ElementID = 'pnlLoRaSerial'
+    HeightStyle = ssPercent
+    HeightPercent = 16.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    ChildOrder = 1
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlHabitat: TWebPanel
+    AlignWithMargins = True
+    Left = 0
+    Top = 253
+    Width = 663
+    Height = 61
+    Margins.Left = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    ElementID = 'pnlHabitat'
+    HeightStyle = ssPercent
+    HeightPercent = 16.000000000000000000
+    WidthPercent = 100.000000000000000000
+    Align = alTop
+    BorderColor = clYellow
+    BorderStyle = bsSingle
+    ChildOrder = 2
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
+  object tmrInit: TWebTimer
+    Enabled = False
+    OnTimer = tmrInitTimer
+    Left = 483
+    Top = 307
+  end
+end

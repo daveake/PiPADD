@@ -1,0 +1,2 @@
+inherited frmTarget: TfrmTarget
+end
