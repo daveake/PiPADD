@@ -229,30 +229,29 @@ var
     TimeStamp: String;
     UTC: TDateTime;
     Start: Integer;
-    Position: THABPosition;
 begin
-    Position := default(Position);
-    Position.PayloadID := GetParameter(Parameters, 'ID');
-    Position.TimeStamp := StrToTime(GetParameter(Parameters, 'TIME'));
-    Position.Counter := StrToIntDef(GetParameter(Parameters, 'COUNT'), 0);
-    Position.Latitude := StrToFloat(GetParameter(Parameters, 'LAT'));
-    Position.Longitude := StrToFloat(GetParameter(Parameters, 'LON'));
-    Position.Altitude := StrToFloat(GetParameter(Parameters, 'ALT'));
-    Position.Satellites := StrToIntDef(GetParameter(Parameters, 'SATS'), 0);
+    with HABPositions[HABLINK_SOURCE] do begin
+        PayloadID := GetParameter(Parameters, 'ID');
+        TimeStamp := StrToTime(GetParameter(Parameters, 'TIME'));
+        Counter := StrToIntDef(GetParameter(Parameters, 'COUNT'), 0);
+        Latitude := StrToFloat(GetParameter(Parameters, 'LAT'));
+        Longitude := StrToFloat(GetParameter(Parameters, 'LON'));
+        Altitude := StrToFloat(GetParameter(Parameters, 'ALT'));
+        Satellites := StrToIntDef(GetParameter(Parameters, 'SATS'), 0);
 
-    // Landing prediction ?
-    if GetParameter(Parameters, 'PRED_LAT') > '' then begin
-        Position.ContainsPrediction := True;
-        Position.PredictedLatitude := StrToFloat(GetParameter(Parameters, 'PRED_LAT'));
-        Position.PredictedLongitude := StrToFloat(GetParameter(Parameters, 'PRED_LON'));
-    end else begin
-        Position.ContainsPrediction := False;
+        // Landing prediction ?
+        if GetParameter(Parameters, 'PRED_LAT') > '' then begin
+            ContainsPrediction := True;
+            PredictedLatitude := StrToFloat(GetParameter(Parameters, 'PRED_LAT'));
+            PredictedLongitude := StrToFloat(GetParameter(Parameters, 'PRED_LON'));
+        end else begin
+            ContainsPrediction := False;
+        end;
+
+        ReceivedLine := GetRestOfLine(Parameters, 'SENTENCE');
+        Updated := True;
+        lblPosition.Caption := ReceivedLine;
     end;
-
-    Position.Line := GetRestOfLine(Parameters, 'SENTENCE');
-    lblPosition.Caption := Position.Line;
-
-    frmMain.NewPosition(HABLINK_SOURCE, Position);
 end;
 
 procedure TfrmHABLink.SendGPSPosition(Callsign: String; Position: THABPosition);

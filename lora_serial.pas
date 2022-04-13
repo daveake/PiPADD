@@ -46,20 +46,21 @@ end;
 procedure TfrmLoRaSerial.ProcessLine(Channel: Integer; Line: String);
 var
     Command: String;
-    Position: THABPosition;
 begin
     try
         Command := GetString(Line, '=');
 
         if Command = 'GPS' then begin
             lblGPS.Caption := 'GPS: ' + Line;
-            Position := default(Position);
-            Position.TimeStamp := GetTime(Line);
-            Position.Latitude := GetFloat(Line);
-            Position.Longitude := GetFloat(Line);
-            Position.Altitude := GetFloat(Line);
-            Position.Satellites := GetInteger(Line);
-            frmMain.NewGPSPosition(Position);
+
+            with HABPositions[GPS_SOURCE] do begin
+                TimeStamp := GetTime(Line);
+                Latitude := GetFloat(Line);
+                Longitude := GetFloat(Line);
+                Altitude := GetFloat(Line);
+                Satellites := GetInteger(Line);
+                Updated := True;
+            end;
         end else if Command = 'CurrentRSSI' then begin
         end else if Command = 'FreqErr' then begin
         end else if Command = 'PacketRSSI' then begin

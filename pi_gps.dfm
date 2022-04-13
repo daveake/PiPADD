@@ -1,21 +1,11 @@
 inherited frmPiGPS: TfrmPiGPS
-  Width = 697
   Height = 169
   ClientHeight = 130
-  ClientWidth = 681
   inherited lblPosition: TWebLabel
-    Width = 675
+    Width = 670
     Height = 86
-    ExplicitWidth = 675
+    ExplicitWidth = 670
     ExplicitHeight = 104
-  end
-  inherited lblSource: TWebLabel
-    Width = 675
-    ExplicitWidth = 675
-  end
-  inherited lblStatus: TWebLabel
-    Width = 675
-    ExplicitWidth = 675
   end
   object MiletusRaspberryUART1: TMiletusRaspberryUART
     PortNum = firstPL011

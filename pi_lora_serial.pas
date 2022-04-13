@@ -92,38 +92,19 @@ var
 begin
     tmrPoll.Enabled := False;
 
-    (*
-    while await(Boolean, MiletusRaspberryUART1.CanRead(1)) do begin
-        AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
-
+    AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
+    if AvailLength > 0 then begin
         ReadLength := await(Integer, MiletusRaspberryUART1.ReadBuffer(Buffer, AvailLength));
 
         for i := 0 to ReadLength-1 do begin
             if Buffer[i] = 10 then begin
-                ProcessLine(3, Line);
+                ProcessLine(0, Line);
                 Line := '';
             end else begin
                 Line := Line + Chr(Buffer[i]);
             end;
         end;
     end;
-    *)
-
-    repeat
-        AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
-        if AvailLength > 0 then begin
-            ReadLength := await(Integer, MiletusRaspberryUART1.ReadBuffer(Buffer, AvailLength));
-
-            for i := 0 to ReadLength-1 do begin
-                if Buffer[i] = 10 then begin
-                    ProcessLine(3, Line);
-                    Line := '';
-                end else begin
-                    Line := Line + Chr(Buffer[i]);
-                end;
-            end;
-        end;
-    until AvailLength = 0;
 
     tmrPoll.Enabled := True;
 end;

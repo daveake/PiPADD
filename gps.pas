@@ -48,34 +48,36 @@ begin
 end;
 
 procedure TfrmGPS.ProcessLine(Line: String);
-var
-    Position: THABPosition;
 begin
     try
         if Copy(Line, 4, 3) = 'GGA' then begin
-            GetString(Line);        // Skip GPGGA
+            with HABPositions[GPS_SOURCE] do begin
+                GetString(Line);        // Skip GPGGA
 
-            Position.TimeStamp := GetTime(Line);
+                TimeStamp := GetTime(Line);
 
-            Position.Latitude := FixPosition(GetFloat(Line));
-            if GetString(Line) = 'S' then Position.Latitude := -Position.Latitude;
+                Latitude := FixPosition(GetFloat(Line));
+                if GetString(Line) = 'S' then Latitude := -Latitude;
 
-            Position.Longitude := FixPosition(GetFloat(Line));
-            if GetString(Line) = 'W' then Position.Longitude := -Position.Longitude;
+                Longitude := FixPosition(GetFloat(Line));
+                if GetString(Line) = 'W' then Longitude := -Longitude;
 
-            GetString(Line);
-            Position.Satellites := GetInteger(Line);
+                GetString(Line);
+                Satellites := GetInteger(Line);
 
-            GetString(Line);
-            Position.Altitude := GetFloat(Line);
+                GetString(Line);
+                Altitude := GetFloat(Line);
 
-            lblPosition.Caption := FormatDateTime('hh:nn:ss', Position.TimeStamp) + ' , ' +
-                              FormatFloat('0.00000', Position.Latitude) + ', ' +
-                              FormatFloat('0.00000', Position.Longitude) + ', ' +
-                              FormatFloat('0', Position.Altitude) + 'm, ' +
-                              IntToStr(Position.Satellites) + ' sats';
+                lblPosition.Caption := FormatDateTime('hh:nn:ss', TimeStamp) + ' , ' +
+                              FormatFloat('0.00000', Latitude) + ', ' +
+                              FormatFloat('0.00000', Longitude) + ', ' +
+                              FormatFloat('0', Altitude) + 'm, ' +
+                              IntToStr(Satellites) + ' sats';
 
-            frmMain.NewGPSPosition(Position);
+                Updated := True;
+            end;
+
+            // frmMain.NewGPSPosition(Position);
         end else if Copy(Line, 4, 3) = 'GLL' then begin
             SendCommand(DisableGLL);
         end else if Copy(Line, 4, 3) = 'GSA' then begin

@@ -1,5 +1,4 @@
 inherited frmSettings: TfrmSettings
-  OnShow = MiletusFormShow
   object pnlButtonTop: TWebPanel
     Left = 0
     Top = 0
@@ -291,7 +290,6 @@ inherited frmSettings: TfrmSettings
   object tmrLoad: TWebTimer
     Enabled = False
     Interval = 10
-    OnTimer = tmrLoadTimer
     Left = 367
     Top = 312
   end

@@ -8,6 +8,7 @@ inherited frmHabitat: TfrmHabitat
     Transparent = False
     ExplicitTop = 34
     ExplicitWidth = 661
+    ExplicitHeight = 47
   end
   inherited lblSource: TWebLabel
     Caption = #160'Habitat'

@@ -7,7 +7,6 @@ inherited frmLog: TfrmLog
     Height = 381
     Margins.Left = 6
     Margins.Right = 0
-    ElementClassName = 'ColumnRoundedCorners'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alClient

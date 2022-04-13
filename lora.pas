@@ -59,12 +59,10 @@ begin
 end;
 
 procedure TfrmLoRa.ProcessTelemetry(Channel: Integer; Sentence: STring);
-var
-    Position: THABPosition;
 begin
     ShowPosition(Channel, Sentence);
-    Position := DecodePosition(Sentence);
-    frmMain.NewPosition(Channel+SourceOffset, Position);
+
+    DecodePosition(Channel+SourceOffset, Sentence);
 end;
 
 procedure TfrmLoRa.LoadSettings;

@@ -71,17 +71,11 @@ const
 var
     Buffer: TBytes;
     i, AvailLength, ReadLength: Integer;
-    StartTime: TDateTime;
 begin
-    StartTime := Now;
     tmrPoll.Enabled := False;
 
-(*
-    while await(Boolean, MiletusRaspberryUART1.CanRead(1)) do begin
-        AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
-
-        // SetLength(Buffer, AvailLength);
-
+    AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
+    if AvailLength > 0 then begin
         ReadLength := await(Integer, MiletusRaspberryUART1.ReadBuffer(Buffer, AvailLength));
 
         for i := 0 to ReadLength-1 do begin
@@ -95,32 +89,7 @@ begin
                 Line := Line + Chr(Buffer[i]);
             end;
         end;
-
-        // Buffer := nil;
     end;
-*)
-
-    repeat
-        AvailLength := await(Integer, MiletusRaspberryUART1.WaitingData);
-        if AvailLength > 0 then begin
-            ReadLength := await(Integer, MiletusRaspberryUART1.ReadBuffer(Buffer, AvailLength));
-
-            for i := 0 to ReadLength-1 do begin
-                if Buffer[i] = Ord('$') then begin
-                    Line := '$';
-                end else if Buffer[i] = 10 then begin
-                    ProcessLine(Line);
-                    Line := '';
-                    tmrTimeout.Enabled := False;
-                end else begin
-                    Line := Line + Chr(Buffer[i]);
-                end;
-            end;
-        end;
-    until AvailLength = 0;
-
-    lblStatus.Caption := IntToStr(AvailLength) + ': ' + FormatDateTime('ss.zzz', Now - StartTime);
-
 
     tmrPoll.Enabled := True;
 end;

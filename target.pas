@@ -24,7 +24,7 @@ begin
     // virtual
 end;
 
-initialization
-  RegisterClass(TfrmTarget);
+//initialization
+//  RegisterClass(TfrmTarget);
 
 end.

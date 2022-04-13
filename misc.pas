@@ -6,6 +6,7 @@ type TFlightMode = (fmIdle, fmLaunched, fmDescending, fmLanded);
 
 type
     THABPosition = record
+        Updated:            Boolean;
         PayloadID:          String;
         Counter:            Integer;
         TimeStamp:          TDateTime;
@@ -18,7 +19,7 @@ type
         PredictedLongitude: Double;
         AscentRate:         Double;
         FlightMode:         TFlightMode;
-        Line:               String;
+        ReceivedLine:       String;
         Sentence:           String;
         DirectionValid:     Boolean;
         Distance:           Double;
@@ -41,20 +42,49 @@ const
     HABLINK_TARGET  =   2;
     SSDV_TARGET     =   3;
 
+var
+    HABPositions: Array[0..5] of THABPosition;
+
 function GetString(var Line: String; Delimiter: String=','): String;
 function GetInteger(var Line: String; Delimiter: String = ','): Integer;
 function GetFloat(var Line: String; Delimiter: String = ','): Double;
 function GetTime(var Line: String; Delimiter: String = ','): TDateTime;
 function FixPosition(Position: Double): Double;
-function DecodePosition(Line: String): THABPosition;
+function DecodePosition(SourceIndex: Integer; Line: String): THABPosition;
 function CalculateHorizonRadius(Altitude, Elevation: Double): Double;
 function CalculateDistance(HABLatitude, HabLongitude, CarLatitude, CarLongitude: Double): Double;
 function CalculateDirection(HABLatitude, HabLongitude, CarLatitude, CarLongitude: Double): Double;
 function CalculateElevation(lat1, lon1, alt1, lat2, lon2, alt2: Double): Double;
+function GetTimeTaken(Calculate: Boolean = True): String;
+//function InsertDate(TimeStamp: TDateTime): TDateTime;
 
 implementation
 
-uses System.SysUtils, Math;
+uses System.SysUtils, DateUtils, Math;
+
+function GetTimeTaken(Calculate: Boolean = True): String;
+const
+    StartTime: TDateTime = 0;
+    MaxTimeTaken: TDateTime = 0;
+    Counter: Integer = 0;
+var
+    TimeTaken: TDateTime;
+begin
+    if Calculate then begin
+        TimeTaken := Now - StartTime;
+        if Counter > 0 then begin
+            Dec(Counter);
+        end else begin
+            if TimeTaken > MaxTimeTaken then begin
+                MaxTimeTaken := TimeTaken;
+            end;
+        end;
+
+        Result := FormatDateTime('ss.zzz', TimeTaken) + ' (max ' + FormatDateTime('ss.zzz', MaxTimeTaken) + ')';
+    end;
+
+    StartTime := Now;
+end;
 
 function GetString(var Line: String; Delimiter: String=','): String;
 var
@@ -141,17 +171,35 @@ begin
     Result := '';
 end;
 
-function DecodePosition(Line: String): THABPosition;
+//function InsertDate(TimeStamp: TDateTime): TDateTime;
+//begin
+//    if TimeStamp < 1 then begin
+//        // Add today's date
+//        TimeStamp := TimeStamp + Trunc(TTimeZone.Local.ToUniversalTime(Now));
+//
+//        if (TimeStamp > 0.99) and (Frac(TTimeZone.Local.ToUniversalTime(Now)) < 0.01) then begin
+//            // Just past midnight, but payload transmitted just before midnight, so use yesterday's date
+//            TimeStamp := TimeStamp - 1;
+//        end;
+//    end;
+//
+//    Result := TimeStamp;
+//end;
+
+function DecodePosition(SourceIndex: Integer; Line: String): THABPosition;
 begin
-    Result.Sentence := Line;
-    Line := RemoveDollars(Line);
-    Result.PayloadID := GetString(Line, ',');
-    Result.Counter := GetInteger(Line, ',');
-    Result.TimeStamp := GetTime(Line, ',');
-    Result.Latitude := GetFloat(Line, ',');
-    Result.Longitude := GetFloat(Line, ',');
-    Result.Altitude := GetFloat(Line, ',');
-    Result.Satellites := GetInteger(Line, ',');
+    with HABPositions[SourceIndex] do begin
+        Result.Sentence := Line;
+        Line := RemoveDollars(Line);
+        PayloadID := GetString(Line, ',');
+        Counter := GetInteger(Line, ',');
+        TimeStamp := GetTime(Line, ',');
+        Latitude := GetFloat(Line, ',');
+        Longitude := GetFloat(Line, ',');
+        Altitude := GetFloat(Line, ',');
+        Satellites := GetInteger(Line, ',');
+        Updated := True;
+    end;
 end;
 
 function CalculateHorizonRadius(Altitude, Elevation: Double): Double;

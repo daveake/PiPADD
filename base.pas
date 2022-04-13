@@ -34,7 +34,7 @@ begin
 end;
 
 
-initialization
-  RegisterClass(TfrmBase);
+//initialization
+//  RegisterClass(TfrmBase);
 
 end.

@@ -19,7 +19,7 @@ type
       Marker, Landing:  TTMSFNCMapsMarker;
       MarkerName:       String;
       Track:            TTMSFNCMapsPolyline;
-      Horizon:          Array[0..1] of TTMSFNCMapsCircle;
+      Horizon:          TTMSFNCMapsCircle;
   end;
 
 type
@@ -179,7 +179,7 @@ begin
 
         DrawPath(PayloadIndex, Position, BalloonColour(PayloadIndex));
 
-        DrawHorizon(PayloadIndex, Position);
+//        DrawHorizon(PayloadIndex, Position);
 
 
         if (FollowMode = mmPayload) and (PayloadIndex = frmMain.SelectedIndex) then begin
@@ -206,6 +206,8 @@ begin
         Balloons[PayloadIndex].Track.StrokeOpacity := 1;
         Balloons[PayloadIndex].Track.StrokeWidth := 2;
         Balloons[PayloadIndex].Track.StrokeColor := Colour;
+    end else if Balloons[PayloadIndex].Track.Coordinates.Count > 10 then begin
+        Balloons[PayloadIndex].Track.Coordinates.Delete(0);
     end;
 
     with Balloons[PayloadIndex].Track.Coordinates.Add do begin
@@ -224,7 +226,7 @@ procedure TfrmMap.FNCMapElementContainers0Actions0Execute(Sender: TObject;
 begin
     ShowSelectedMapButton('btnCar');
     FollowMode := mmCar;
-    FNCMap.SetCenterCoordinate(frmMain.Car.Position.Latitude, frmMain.Car.Position.Longitude);
+    FNCMap.SetCenterCoordinate(frmMain.Payloads[0].Position.Latitude, frmMain.Payloads[0].Position.Longitude);
 end;
 
 procedure TfrmMap.FNCMapElementContainers0Actions1Execute(Sender: TObject;
@@ -247,36 +249,26 @@ procedure TfrmMap.FNCMapElementContainers0Actions3Execute(Sender: TObject;
 begin
     with frmMain do begin
         if SelectedIndex > 0 then begin
-            with Payloads[SelectedIndex].Position do begin
-//            if UsePrediction then begin
-//                ShowRouteOnMap(PredictedLatitude, PredictedLongitude, Car.Position.Latitude, Car.Position.Longitude);
-//            end else begin
-                FNCMap.AddDirections(Car.Position.Latitude, Car.Position.Longitude, Latitude, Longitude);
-//            end;
-            end;
+            FNCMap.AddDirections(Payloads[0].Position.Latitude, Payloads[0].Position.Longitude,
+                                 Payloads[SelectedIndex].Position.Latitude, Payloads[SelectedIndex].Position.Longitude);
         end;
     end;
 end;
 
 procedure TfrmMap.DrawHorizon(PayloadIndex: Integer; Position: THABPosition);
-const
-    Colors: Array[0..1] of TColor = (clBlue, clLime);
-    Radius: Array[0..1] of Double = (0.0, 5.0);
 var
     i: Integer;
 begin
-    for i := 0 to 1 do begin
-        if Balloons[PayloadIndex].Horizon[i] = nil then begin
-            Balloons[PayloadIndex].Horizon[i] := FNCMap.Circles.Add;
-            Balloons[PayloadIndex].Horizon[i].StrokeColor := Colors[i];
-            Balloons[PayloadIndex].Horizon[i].FillOpacity := 0;
-            Balloons[PayloadIndex].Horizon[i].StrokeWidth := 2;
-        end;
-
-        Balloons[PayloadIndex].Horizon[i].Radius := Round(1000.0 * CalculateHorizonRadius(Position.Altitude, Radius[i]));
-        Balloons[PayloadIndex].Horizon[i].Center.Latitude := Position.Latitude;
-        Balloons[PayloadIndex].Horizon[i].Center.Longitude := Position.Longitude;
+    if Balloons[PayloadIndex].Horizon = nil then begin
+        Balloons[PayloadIndex].Horizon := FNCMap.Circles.Add;
+        Balloons[PayloadIndex].Horizon.StrokeColor := clLime;
+        Balloons[PayloadIndex].Horizon.FillOpacity := 0;
+        Balloons[PayloadIndex].Horizon.StrokeWidth := 2;
     end;
+
+    Balloons[PayloadIndex].Horizon.Radius := Round(1000.0 * CalculateHorizonRadius(Position.Altitude, 5));
+    Balloons[PayloadIndex].Horizon.Center.Latitude := Position.Latitude;
+    Balloons[PayloadIndex].Horizon.Center.Longitude := Position.Longitude;
 end;
 
 procedure TfrmMap.ShowSelectedMapButton(ElementID: String);

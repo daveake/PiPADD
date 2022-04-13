@@ -7,21 +7,19 @@ uses
   WEBLib.Forms, WEBLib.Miletus, WEBLib.Dialogs, target, Vcl.Controls,
   WEBLib.ExtCtrls, VCL.TMSFNCTypes, VCL.TMSFNCUtils, VCL.TMSFNCGraphics,
   VCL.TMSFNCGraphicsTypes, VCL.TMSFNCCustomControl, VCL.TMSFNCListBox,
-  misc;
+  misc, Vcl.StdCtrls, WEBLib.StdCtrls;
 
 type
   TfrmPayloads = class(TfrmTarget)
     pnlPayload1: TWebPanel;
     pnlPayload3: TWebPanel;
     pnlPayload2: TWebPanel;
-    lstPayload2: TTMSFNCListBox;
-    lstPayload1: TTMSFNCListBox;
     lstPayload3: TTMSFNCListBox;
     procedure MiletusFormResize(Sender: TObject);
     procedure MiletusFormCreate(Sender: TObject);
   private
     { Private declarations }
-    function ListBoxForIndex(Index: Integer): TTMSFNCListBox;
+    Labels: Array[1..3, 1..6] of TWebLabel;
   public
     { Public declarations }
     procedure NewPosition(Index: Integer; Position: THABPosition); override;
@@ -35,9 +33,31 @@ implementation
 {$R *.dfm}
 
 procedure TfrmPayloads.MiletusFormCreate(Sender: TObject);
+var
+    i, j: Integer;
 begin
     inherited;
 
+
+    for j := 1 to 3 do begin
+        for i := 1 to 6 do begin
+            Labels[j, i] := TWebLabel.Create(nil);
+            with Labels[j, i] do begin
+                Height := 45;
+                Align := alTop;
+                Alignment := taCenter;
+                Font.Color := clWhite;
+                Font.Height := -32;
+                case j of
+                    1:  Parent := pnlPayload1;
+                    2:  Parent := pnlPayload2;
+                    3:  Parent := pnlPayload3;
+                end;
+            end;
+        end;
+    end;
+
+//
     pnlPayload1.ElementClassName := 'ColumnRoundedCorners';
     pnlPayload2.ElementClassName := 'ColumnRoundedCorners';
     pnlPayload3.ElementClassName := 'ColumnRoundedCorners';
@@ -51,30 +71,16 @@ begin
     pnlPayload2.Width := pnlPayload1.Width;
 end;
 
-function TfrmPayloads.ListBoxForIndex(Index: Integer): TTMSFNCListBox;
-begin
-    case Index of
-        1:  Result := lstPayload1;
-        2:  Result := lstPayload2;
-        3:  Result := lstPayload3;
-        else Result := nil;
-    end;
-
-end;
 
 procedure TfrmPayloads.NewPosition(Index: Integer; Position: THABPosition);
-var
-    ListBox: TTMSFNCListBox;
 begin
-    ListBox := ListBoxForIndex(Index);
-
-    if ListBox <> nil then begin
-        ListBox.Items[0].Text := Position.PayloadID;
-        ListBox.Items[1].Text := FormatDateTime('hh:nn:ss', Position.TimeStamp);
-        ListBox.Items[2].Text := FormatFloat('0.00000', Position.Latitude);
-        ListBox.Items[3].Text := FormatFloat('0.00000', Position.Longitude);
-        ListBox.Items[4].Text := FormatFloat('0', Position.Altitude) + ' m';
-        ListBox.Items[5].Text := IntToStr(Position.Satellites) + ' sats';
+    if Index in [1..3] then begin
+        Labels[Index, 1].Caption := Position.PayloadID;
+        Labels[Index, 2].Caption := FormatDateTime('hh:nn:ss', Position.TimeStamp);
+        Labels[Index, 3].Caption := FormatFloat('0.00000', Position.Latitude);
+        Labels[Index, 4].Caption := FormatFloat('0.00000', Position.Longitude);
+        Labels[Index, 5].Caption := FormatFloat('0', Position.Altitude) + ' m';
+        Labels[Index, 6].Caption := IntToStr(Position.Satellites) + ' sats';
     end;
 end;
 

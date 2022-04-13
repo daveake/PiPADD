@@ -81,6 +81,12 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_8)'=='true') or '$(Cfg_8_Win32)'!=''">
+        <Cfg_8_Win32>true</Cfg_8_Win32>
+        <CfgParent>Cfg_8</CfgParent>
+        <Cfg_8>true</Cfg_8>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug-Win32' or '$(Cfg_9)'!=''">
         <Cfg_9>true</Cfg_9>
         <CfgParent>Base</CfgParent>
@@ -125,10 +131,10 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
         <SanitizedProjectName>PiPADD</SanitizedProjectName>
-        <TMSWebHTMLFile>PiPADD.html</TMSWebHTMLFile>
-        <TMSWebMiletusResIconWindowsFile>MiletusWindows.ico</TMSWebMiletusResIconWindowsFile>
-        <TMSWebMiletusResIconMacOSFile>MiletusMac.icns</TMSWebMiletusResIconMacOSFile>
         <TMSWebMiletusResIconLinuxFile>MiletusLinux.png</TMSWebMiletusResIconLinuxFile>
+        <TMSWebMiletusResIconMacOSFile>MiletusMac.icns</TMSWebMiletusResIconMacOSFile>
+        <TMSWebMiletusResIconWindowsFile>MiletusWindows.ico</TMSWebMiletusResIconWindowsFile>
+        <TMSWebHTMLFile>PiPADD.html</TMSWebHTMLFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DBXInterBaseDriver;ibdacvcl270;SCCS;vclactnband;VCLTMSFNCDashboardPackPkgDXE13;vclFireDAC;TMSFMXCloudPackPkgDEDXE13;bindcompvclsmp;tethering;svnui;FireDACADSDriver;vcltouch;FMXTMSFNCDashboardPackPkgDXE13;vcldb;bindcompfmx;svn;crcontrols270;inetdb;TMSFMXPackPkgDXE13;VCLTMSFNCCloudPackPkgDXE13;fmx;FireDACIBDriver;fmxdae;vcledge;TMSMQTTPkgDXE13;FMXTMSFNCCloudPackPkgDXE13;mydacvcl270;VCLTMSFNCChartPkgDXE13;dbexpress;IndyCore;vclx;dsnap;FireDACCommon;ibdac270;RESTBackendComponents;mydac270;VCLTMSFNCCorePkgDXE13;VCLRESTComponents;soapserver;FMXTMSFNCUIPackPkgDXE13;VCLTMSFNCUIPackPkgDXE13;vclie;FMXfrxDB27;bindengine;DBXMySQLDriver;CloudService;FireDACMySQLDriver;FireDACCommonODBC;FireDACCommonDriver;FMXTMSFNCBloxPkgDXE13;TMSWEBCorePkgLibDXE13;inet;TMSFMXChartPkgDXE13;FMXfs27;IndyIPCommon;bindcompdbx;FMXfrx27;vcl;IndyIPServer;indy10sbridge270;dacvcl270;IndySystem;mydacfmx270;TMSFMXWebOSMapsPkgDXE13;dac270;VCLTMSFNCBloxPkgDXE13;bindcompvclwinx;sbridge270;dsnapcon;FMXfsDB27;FMXfrxDBX27;VCLTMSFNCMapsPkgDXE13;FireDACMSAccDriver;fmxFireDAC;FMXfrxe27;vclimg;FMXTMSFNCCorePkgDXE13;FireDAC;mysqlmon270;FireDACSqliteDriver;FireDACPgDriver;FMXTMSFNCMapsPkgDXE13;TMSWEBCorePkgDXE13;TMSMQTTPkgDEDXE13;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;fmxobj;vclwinx;rtl;TMSFMXCloudPackPkgDXE13;DbxClientDriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;IndyIPClient;ibdacfmx270;bindcompvcl;dbxcds;VclSmp;adortl;TMSmCLPkgDXE13;TMSFMXWebGMapsPkgDXE13;TMSiCLPkgDXE13;dsnapxml;FMXTMSFNCChartPkgDXE13;dbrtl;IndyProtocols;inetdbxpress;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -212,6 +218,11 @@
         <TMSWebOptimization>2</TMSWebOptimization>
         <TMSWebDefines>$(TMSWebDefines);RELEASE</TMSWebDefines>
         <TMSWebMiletusBuild>11</TMSWebMiletusBuild>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_8_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <TMSWebObfuscation>1</TMSWebObfuscation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_9)'!=''">
         <TMSWebDebugInfo>2</TMSWebDebugInfo>
@@ -571,6 +582,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="MiletusLinux.png" Configuration="Build-Win32" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="MiletusLinux.png" Configuration="Debug-Win32" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -595,21 +612,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Build-Raspberry-Pi\PiPADD.exe" Configuration="Build-Raspberry-Pi" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>PiPADD.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="MiletusLinux.png" Configuration="Build-Win32" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="MiletusWindows.ico" Configuration="Build-Win32" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Build-Raspberry-Pi\PiPADD.exe" Configuration="Build-Raspberry-Pi" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>PiPADD.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

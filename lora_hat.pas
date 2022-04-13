@@ -8,6 +8,14 @@ uses
   Vcl.StdCtrls, WEBLib.StdCtrls, WEBLib.ExtCtrls, WEBLib.MiletusRaspi;
 
 type
+    TLoRaDevice = record
+        SPIDevice:      TMiletusRaspberrySPI;
+        DIO0Pin:        Integer;
+        ChannelIsOpen:  Boolean;
+        StatusLabel:    TWebLabel;
+    end;
+
+type
     TPacket = record
         HasPosition:    Boolean;
         BadCRC:         Boolean;
@@ -30,9 +38,7 @@ type
   private
     { Private declarations }
 	PayloadLength: Integer;
-    Devices: Array[0..1] of TMiletusRaspberrySPI;
-    ChannelIsOpen: Array[0..1] of Boolean;
-    Status: Array[0..1] of TWebLabel;
+    Devices: Array[0..1] of TLoRaDevice;
   protected
     procedure ProgramDeviceFromSettings(Channel: Integer); override;
     procedure ProgramDevicesFromSettings; override;
@@ -140,14 +146,17 @@ implementation
 uses Main, misc;
 
 procedure TfrmLoRaHAT.AfterLoad;
+var
+    Channel: Integer;
 begin
     inherited;
 
-    lblStatus.Caption := 'Opening SPI CE0';
-    lblStatus2.Caption := 'Opening SPI CE1';
+    for Channel := 0 to 1 do begin
+        GPIOConfig(Devices[Channel].DIO0Pin, gmRead);
 
-    CE0.Open;
-    CE1.Open;
+        Devices[Channel].StatusLabel.Caption := 'Opening SPI CE' + IntToStr(Channel);
+        Devices[Channel].SPIDevice.Open;
+    end;
 end;
 
 procedure TfrmLoRaHAT.SPIOpen(Sender: TObject);
@@ -157,24 +166,24 @@ begin
     Channel := TMiletusRaspberrySPI(Sender).Tag;
 
     if await(Integer, ReadRegister(Channel, REG_OPMODE)) <> 0 then begin
-        Status[Channel].Caption := 'LoRa CE' + IntToStr(Channel) + ' Opened';
+        Devices[Channel].StatusLabel.Caption := 'LoRa CE' + IntToStr(Channel) + ' Opened';
 
 	    // DIO Mapping
     	WriteRegister(Channel, REG_DIO_MAPPING_2, $00);
 
         ProgramDeviceFromSettings(Channel);
 
-        ChannelIsOpen[Channel] := True;
+        Devices[Channel].ChannelIsOpen := True;
 
         frmMain.ShowSourceStatus(Channel+SourceOffset, True, True, False);
 
         tmrPoll.Enabled := True;
     end else begin
-        Devices[Channel].Close;
+        Devices[Channel].SPIDevice.Close;
 
-        ChannelIsOpen[Channel] := False;
+        Devices[Channel].ChannelIsOpen:= False;
 
-        Status[Channel].Caption := 'LoRa CE' + IntToStr(Channel) + ' Missing';
+        Devices[Channel].StatusLabel.Caption := 'LoRa CE' + IntToStr(Channel) + ' Missing';
 
         frmMain.ShowSourceStatus(Channel+SourceOffset, False, False, False);
     end;
@@ -187,7 +196,7 @@ begin
     SetLength(Buffer, 1);
 
     Buffer[0] := Reg;
-  	await(Boolean, Devices[Channel].ReadTransfer(Buffer, 1, 1));
+  	await(Boolean, Devices[Channel].SPIDevice.ReadTransfer(Buffer, 1, 1));
     Result := Buffer[0];
 
     Buffer := nil;
@@ -201,7 +210,7 @@ begin
 
     Buffer[0] := Reg or $80;
     Buffer[1] := Value;
-  	Devices[Channel].WriteTransfer(Buffer, 2);
+  	Devices[Channel].SPIDevice.WriteTransfer(Buffer, 2);
 
     Buffer := nil;
 end;
@@ -246,7 +255,7 @@ begin
 
 	FrequencyValue := Trunc((Frequency * 7110656) / 434);
 
-    Status[Channel].Caption := 'CE' + IntToStr(Channel) + ': Set to ' + FormatFloat('0.00', Frequency) + ' MHz';
+    Devices[Channel].StatusLabel.Caption := 'CE' + IntToStr(Channel) + ': Set to ' + FormatFloat('0.00', Frequency) + ' MHz';
 
 	WriteRegister(Channel, $06, (FrequencyValue shr 16) and $FF);
 	WriteRegister(Channel, $07, (FrequencyValue shr 8) and $FF);
@@ -281,7 +290,7 @@ end;
 
 procedure TfrmLoRaHAT.SetMode(Channel, Mode: Integer);
 begin
-    Status[Channel].Caption := Status[Channel].Caption + ' Mode ' + IntToStr(Mode);
+    Devices[Channel].StatusLabel.Caption := Devices[Channel].StatusLabel.Caption + ' Mode ' + IntToStr(Mode);
 
 	if Mode = 0 then begin
 		SetLoRaParameters(Channel, EXPLICIT_MODE, ERROR_CODING_4_8, BANDWIDTH_20K8, SPREADING_11, $08);
@@ -305,18 +314,21 @@ begin
 	// Setup Receive Continous Mode
 	await(Integer, SetDeviceMode(Channel, RF98_MODE_RX_CONTINUOUS));
 
-    Status[Channel].Caption := Status[Channel].Caption + ': Listening...';
+    Devices[Channel].StatusLabel.Caption := Devices[Channel].StatusLabel.Caption + ': Listening...';
 end;
 
 procedure TfrmLoRaHAT.MiletusFormCreate(Sender: TObject);
 begin
     SourceOffset := CE0_SOURCE;
 
-    Devices[0] := CE0;
-    Devices[1] := CE1;
+    Devices[0].SPIDevice := CE0;
+    Devices[1].SPIDevice := CE1;
 
-    Status[0] := lblStatus;
-    Status[1] := lblStatus2;
+    Devices[0].DIO0Pin := 25;
+    Devices[1].DIO0Pin := 6;
+
+    Devices[0].StatusLabel := lblStatus;
+    Devices[1].StatusLabel := lblStatus2;
 
     SettingsPageIndex := 2;
 
@@ -331,7 +343,9 @@ end;
 
 function TfrmLoRaHAT.GotPacket(Channel: Integer): Boolean;
 begin
-	Result := (await(Integer, ReadRegister(Channel, REG_IRQ_FLAGS)) and $40) <> 0;
+	// Result := (await(Integer, ReadRegister(Channel, REG_IRQ_FLAGS)) and $40) <> 0;
+
+    Result := await(Integer, GPIORead(Devices[Channel].DIO0Pin)) <> 0;
 end;
 
 function TfrmLoRaHAT.GetPacket(Channel: Integer): TPacket;
@@ -361,7 +375,7 @@ begin
 
         SetLength(Buffer, ByteCount);
         Buffer[0] := REG_FIFO;
-      	await(Boolean, Devices[Channel].ReadTransfer(Buffer, 1, ByteCount));
+      	await(Boolean, Devices[Channel].SPIDevice.ReadTransfer(Buffer, 1, ByteCount));
 
 		// Clear all flags
 		WriteRegister(Channel, REG_IRQ_FLAGS, $FF);
@@ -386,8 +400,12 @@ var
     Line: String;
     Packet: TPacket;
 begin
+//    GetTimeTaken;
+
+    tmrPoll.Enabled := False;
+
     for Channel := 0 to 1 do begin
-        if ChannelIsOpen[Channel] then begin
+        if Devices[Channel].ChannelIsOpen then begin
             if await(Boolean, GotPacket(Channel)) then begin
                 Packet := await(TPacket, GetPacket(Channel));
                 if Packet.HasPosition then begin
@@ -398,6 +416,10 @@ begin
             end;
         end;
     end;
+
+//    lblStatus.Caption := GetTimeTaken;
+
+    tmrPoll.Enabled := True;
 end;
 
 procedure TfrmLoRaHAT.ProgramDeviceFromSettings(Channel: Integer);

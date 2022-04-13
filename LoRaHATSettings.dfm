@@ -247,7 +247,7 @@ inherited frmLoRaHATSettings: TfrmLoRaHATSettings
       ExplicitHeight = 155
     end
   end
-  object btnHabitat: TWebButton
+  object btnUpload: TWebButton
     AlignWithMargins = True
     Left = 64
     Top = 112

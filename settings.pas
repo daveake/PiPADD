@@ -25,19 +25,15 @@ type
     pnlLoRaUSB: TWebPanel;
     procedure MiletusFormResize(Sender: TObject);
     procedure btnGeneralClick(Sender: TObject);
-    procedure MiletusFormShow(Sender: TObject);
     procedure btnGPSClick(Sender: TObject);
     procedure btnLoRaHATClick(Sender: TObject);
     procedure btnInternetClick(Sender: TObject);
     procedure btnUploadClick(Sender: TObject);
-    procedure tmrLoadTimer(Sender: TObject);
     procedure btnLoRaUSBClick(Sender: TObject);
   private
     { Private declarations }
     ActivePanel: TWebPanel;
     ShowPageIndex: Integer;
-    ReadyToShow: Boolean;
-    procedure ShowSelectedPage;
     procedure ShowForm(Button: TWebLabel; NewPanel: TWebPanel; NewForm: TfrmSettingsBase);
   public
     { Public declarations }
@@ -55,77 +51,87 @@ implementation
 uses GeneralSettings, GPSSettings, LoRaHATSettings, LoRaUSBSettings, InternetSettings, UploadSettings;
 
 procedure TfrmSettings.btnGeneralClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnGeneral, pnlGeneral, frmGeneralSettings);
+    end;
 begin
-    ShowForm(btnGeneral, pnlGeneral, frmGeneralSettings);
+    if frmGeneralSettings = nil then begin
+        frmGeneralSettings := TfrmGeneralSettings.CreateNew(pnlGeneral.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnGeneral, pnlGeneral, frmGeneralSettings);
+    end;
 end;
 
 procedure TfrmSettings.btnGPSClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnGPS, pnlGPS, frmGPSSettings);
+    end;
 begin
-    ShowForm(btnGPS, pnlGPS, frmGPSSettings);
+    if frmGPSSettings = nil then begin
+        frmGPSSettings := TfrmGPSSettings.CreateNew(pnlGPS.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnGPS, pnlGPS, frmGPSSettings);
+    end;
 end;
 
 procedure TfrmSettings.btnInternetClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnInternet, pnlInternet, frmInternetSettings);
+    end;
 begin
-    ShowForm(btnInternet, pnlInternet, frmInternetSettings);
+    if frmInternetSettings = nil then begin
+        frmInternetSettings := TfrmInternetSettings.CreateNew(pnlInternet.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnInternet, pnlInternet, frmInternetSettings);
+    end;
 end;
 
 procedure TfrmSettings.btnLoRaHATClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnLoRaHAT, pnlLoRaHAT, frmLoRaHATSettings);
+    end;
 begin
-    ShowForm(btnLoRaHAT, pnlLoRaHAT, frmLoRaHATSettings);
+    if frmLoRaHATSettings = nil then begin
+        frmLoRaHATSettings := TfrmLoRaHATSettings.CreateNew(pnlLoRaHAT.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnLoRaHAT, pnlLoRaHAT, frmLoRaHATSettings);
+    end;
 end;
 
 procedure TfrmSettings.btnLoRaUSBClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnLoRaUSB, pnlLoRaUSB, frmLoRaUSBSettings);
+    end;
 begin
-    ShowForm(btnLoRaUSB, pnlLoRaUSB, frmLoRaUSBSettings);
+    if frmLoRaUSBSettings = nil then begin
+        frmLoRaUSBSettings := TfrmLoRaUSBSettings.CreateNew(pnlLoRaUSB.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnLoRaUSB, pnlLoRaUSB, frmLoRaUSBSettings);
+    end;
 end;
 
 procedure TfrmSettings.btnUploadClick(Sender: TObject);
+    procedure AfterSettingsCreate(AForm: TObject);
+    begin
+        ShowForm(btnUpload, pnlUpload, frmUploadSettings);
+    end;
 begin
-    ShowForm(btnUpload, pnlUpload, frmUploadSettings);
+    if frmUploadSettings = nil then begin
+        frmUploadSettings := TfrmUploadSettings.CreateNew(pnlUpload.ElementID, @AfterSettingsCreate);
+    end else begin
+        ShowForm(btnUpload, pnlUpload, frmUploadSettings);
+    end;
 end;
 
 procedure TfrmSettings.MiletusFormResize(Sender: TObject);
 begin
     inherited;
     //
-end;
-
-procedure TfrmSettings.MiletusFormShow(Sender: TObject);
-    procedure AfterUploadCreate(AForm: TObject);
-    begin
-        ReadyToShow := True;
-    end;
-
-    procedure AfterInternetCreate(AForm: TObject);
-    begin
-        frmUploadSettings := TfrmUploadSettings.CreateNew(pnlUpload.ElementID, @AfterUploadCreate);
-    end;
-
-    procedure AfterLoRaCreate(AForm: TObject);
-    begin
-        frmInternetSettings := TfrmInternetSettings.CreateNew(pnlInternet.ElementID, @AfterInternetCreate);
-    end;
-
-    procedure AfterLoRaHATCreate(AForm: TObject);
-    begin
-        frmLoRaUSBSettings := TfrmLoRaUSBSettings.CreateNew(pnlLoRaUSB.ElementID, @AfterLoRaCreate);
-    end;
-
-    procedure AfterGPSCreate(AForm: TObject);
-    begin
-        frmLoRaHATSettings := TfrmLoRaHATSettings.CreateNew(pnlLoRaHAT.ElementID, @AfterLoRaHATCreate);
-    end;
-
-    procedure AfterGeneralCreate(AForm: TObject);
-    begin
-        frmGPSSettings := TfrmGPSSettings.CreateNew(pnlGPS.ElementID, @AfterGPSCreate);
-    end;
-
-begin
-    if frmGeneralSettings = nil then begin
-        // Create sub=forms
-        frmGeneralSettings := TfrmGeneralSettings.CreateNew(pnlGeneral.ElementID, @AfterGeneralCreate);
-    end;
 end;
 
 procedure TfrmSettings.ShowForm(Button: TWebLabel; NewPanel: TWebPanel; NewForm: TfrmSettingsBase);
@@ -158,37 +164,11 @@ begin
 end;
 
 
-procedure TfrmSettings.tmrLoadTimer(Sender: TObject);
-begin
-    if ReadyToShow then begin
-        tmrLoad.Enabled := False;
-        ShowSelectedPage;
-    end;
-end;
-
 procedure TfrmSettings.AfterShow;
 begin
-//    inherited;
-//
-//    if ReadyToShow then begin
-//        btnGeneralClick(nil);
-//    end else begin
-//        tmrLoad.Enabled := True;
-//    end;
 end;
 
 procedure TfrmSettings.ShowPage(PageIndex: Integer);
-begin
-    ShowPageIndex := PageIndex;
-
-    if ReadyToShow then begin
-        ShowSelectedPage;
-    end else begin
-        tmrLoad.Enabled := True;
-    end;
-end;
-
-procedure TfrmSettings.ShowSelectedPage;
 begin
     case ShowPageIndex of
         0:  btnGeneralClick(nil);

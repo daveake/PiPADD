@@ -19,11 +19,11 @@ type
     btnMode: TWebEdit;
     btnSSDV: TWebButton;
     edtDevice: TWebEdit;
-    btnHabitat: TWebButton;
+    btnUpload: TWebButton;
     procedure btnLessClick(Sender: TObject);
     procedure MiletusFormCreate(Sender: TObject);
     procedure btnMoreClick(Sender: TObject);
-    procedure btnHabitatClick(Sender: TObject);
+    procedure btnUploadClick(Sender: TObject);
     procedure edtDeviceChange(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
   private
@@ -44,7 +44,7 @@ implementation
 
 uses win_lora_serial, pi_lora_serial;
 
-procedure TfrmLoRaUSBSettings.btnHabitatClick(Sender: TObject);
+procedure TfrmLoRaUSBSettings.btnUploadClick(Sender: TObject);
 begin
     ToggleButton(TWebButton(Sender));
 end;
@@ -91,7 +91,7 @@ begin
         INIFile.WriteString('LoRaUSB', 'Mode', btnMode.Text);
         INIFile.WriteBool('LoRaUSB', 'AFC', SettingsButtonToBoolean(btnAFC));
 
-        INIFile.WriteBool('LoRaUSB', 'Habitat', SettingsButtonToBoolean(btnHabitat));
+        INIFile.WriteBool('LoRaUSB', 'Upload', SettingsButtonToBoolean(btnUpload));
         INIFile.WriteBool('LoRaUSB', 'SSDV', SettingsButtonToBoolean(btnSSDV));
     finally
         INIFile.Free;
@@ -112,7 +112,7 @@ begin
         btnMode.Text := await(String, INIFile.ReadString('LoRaUSB', 'Mode', '1'));
         SetSettingsButtonFromBoolean(btnAFC, await(Boolean, INIFile.ReadBool('LoRaUSB', 'AFC', False)));
 
-        SetSettingsButtonFromBoolean(btnHabitat, await(Boolean, INIFile.ReadBool('LoRaUSB', 'Habitat', False)));
+        SetSettingsButtonFromBoolean(btnUpload, await(Boolean, INIFile.ReadBool('LoRaUSB', 'Upload', False)));
         SetSettingsButtonFromBoolean(btnSSDV, await(Boolean, INIFile.ReadBool('LoRaUSB', 'SSDV', False)));
     finally
         INIFile.Free;

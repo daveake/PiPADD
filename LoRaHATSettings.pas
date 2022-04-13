@@ -24,7 +24,7 @@ type
     btnMode1: TWebEdit;
     btnMore1: TWebButton;
     btnSSDV: TWebButton;
-    btnHabitat: TWebButton;
+    btnUpload: TWebButton;
     procedure MiletusFormResize(Sender: TObject);
     procedure MiletusFormCreate(Sender: TObject);
     procedure TextChanged(Sender: TObject);
@@ -120,7 +120,7 @@ begin
         INIFile.WriteString('LoRaHAT', 'Mode1', btnMode1.Text);
         INIFile.WriteBool('LoRaHAT', 'AFC1', SettingsButtonToBoolean(btnAFC1));
 
-        INIFile.WriteBool('LoRaHAT', 'Habitat', SettingsButtonToBoolean(btnHabitat));
+        INIFile.WriteBool('LoRaHAT', 'Upload', SettingsButtonToBoolean(btnUpload));
         INIFile.WriteBool('LoRaHAT', 'SSDV', SettingsButtonToBoolean(btnSSDV));
     finally
         INIFile.Free;
@@ -143,7 +143,7 @@ begin
         btnMode1.Text := await(String, INIFile.ReadString('LoRaHAT', 'Mode1', '1'));
         SetSettingsButtonFromBoolean(btnAFC1, await(Boolean, INIFile.ReadBool('LoRaHAT', 'AFC1', False)));
 
-        SetSettingsButtonFromBoolean(btnHabitat, await(Boolean, INIFile.ReadBool('LoRaHAT', 'Habitat', False)));
+        SetSettingsButtonFromBoolean(btnUpload, await(Boolean, INIFile.ReadBool('LoRaHAT', 'Upload', False)));
         SetSettingsButtonFromBoolean(btnSSDV, await(Boolean, INIFile.ReadBool('LoRaHAT', 'SSDV', False)));
     finally
         INIFile.Free;

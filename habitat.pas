@@ -155,8 +155,7 @@ function TfrmHabitat.ProcessHabitatResponse(Response: String): Integer;
 var
     Strings: TStringList;
     i: Integer;
-    Position: THABPosition;
-    Line, TimeStamp: String;
+    Line, Temp: String;
 begin
     Result := 0;
 
@@ -166,42 +165,40 @@ begin
     for i := 0 to Strings.Count-1 do begin
         Line := Strings[i];
         if GetJSONInteger(Line, 'position_id') > 0 then begin
-            Position := default(THABPosition);
-            // "position_id":"21593335","vehicle":"PTE2"
-            Position.PayloadID := GetJSONString(Line, 'vehicle');
+            with HABPositions[HABHUB_SOURCE] do begin
+                // "position_id":"21593335","vehicle":"PTE2"
+                PayloadID := GetJSONString(Line, 'vehicle');
 
-            // "gps_time":"2018-09-19 11:14:58",
-            TimeStamp := GetJSONString(Line, 'gps_time');
+                // "gps_time":"2018-09-19 11:14:58",
+                Temp := GetJSONString(Line, 'gps_time');
 
-            Position.TimeStamp := EncodeDateTime(StrToIntDef(Copy(TimeStamp, 1, 4), 0),
-                                                 StrToIntDef(Copy(TimeStamp, 6, 2), 0),
-                                                 StrToIntDef(Copy(TimeStamp, 9, 2), 0),
-                                                 StrToIntDef(Copy(TimeStamp, 12, 2), 0),
-                                                 StrToIntDef(Copy(TimeStamp, 15, 2), 0),
-                                                 StrToIntDef(Copy(TimeStamp, 18, 2), 0),
-                                                 0);
+                TimeStamp := EncodeDateTime(StrToIntDef(Copy(Temp, 1, 4), 0),
+                                            StrToIntDef(Copy(Temp, 6, 2), 0),
+                                            StrToIntDef(Copy(Temp, 9, 2), 0),
+                                            StrToIntDef(Copy(Temp, 12, 2), 0),
+                                            StrToIntDef(Copy(Temp, 15, 2), 0),
+                                            StrToIntDef(Copy(Temp, 18, 2), 0),
+                                            0);
 
-            // Ignore if old
-            if Position.TimeStamp > (Now - 120/86400) then begin
-                // "gps_lat":"51.95016","gps_lon":"-2.5446","gps_alt":"130"
-                Position.Latitude := GetJSONFloat(Line, 'gps_lat');
-                Position.Longitude := GetJSONFloat(Line, 'gps_lon');
-                Position.Altitude := GetJSONFloat(Line, 'gps_alt');
+                // Ignore if old
+                if TimeStamp > (Now - 120/86400) then begin
+                    // "gps_lat":"51.95016","gps_lon":"-2.5446","gps_alt":"130"
+                    Latitude := GetJSONFloat(Line, 'gps_lat');
+                    Longitude := GetJSONFloat(Line, 'gps_lon');
+                    Altitude := GetJSONFloat(Line, 'gps_alt');
 
-                // "data":{"landing_speed":"0.0","cda":"0.66","predicted_latitude":"0.0","temperature_internal":"40.1","ttl":0,"satellites":10,"predicted_longitude":"0.0"},"callsign":"M0RPI\/5","sequence":"50"},
-                // "predicted_latitude":"0.0","temperature_internal":"40.1","ttl":0,"satellites":10,"predicted_longitude":"0.0"},"callsign":"M0RPI\/5","sequence":"50"},
-                Position.PredictedLatitude := GetJSONFloat(Line, 'predicted_latitude');
-                Position.PredictedLongitude := GetJSONFloat(Line, 'predicted_longitude');
-                Position.ContainsPrediction := (Position.PredictedLatitude <> 0) or (Position.PredictedLongitude <> 0);
+                    // "data":{"landing_speed":"0.0","cda":"0.66","predicted_latitude":"0.0","temperature_internal":"40.1","ttl":0,"satellites":10,"predicted_longitude":"0.0"},"callsign":"M0RPI\/5","sequence":"50"},
+                    // "predicted_latitude":"0.0","temperature_internal":"40.1","ttl":0,"satellites":10,"predicted_longitude":"0.0"},"callsign":"M0RPI\/5","sequence":"50"},
+                    PredictedLatitude := GetJSONFloat(Line, 'predicted_latitude');
+                    PredictedLongitude := GetJSONFloat(Line, 'predicted_longitude');
+                    ContainsPrediction := (PredictedLatitude <> 0) or (PredictedLongitude <> 0);
 
-                Position.Line := ' ' + Position.PayloadID + ': ' + FormatDateTime('hh:nn:ss', Position.TimeStamp) + ',' + Position.Latitude.ToString + ',' + Position.Longitude.ToString + ',' + Position.Altitude.ToString;
+                    ReceivedLine := ' ' + PayloadID + ': ' + FormatDateTime('hh:nn:ss', TimeStamp) + ',' + Latitude.ToString + ',' + Longitude.ToString + ',' + Altitude.ToString;
 
-                // Position.ReceivedAt := Now;
-                // Position.InUse := True;
+                    Updated := True;
 
-                frmMain.NewPosition(HABHUB_SOURCE, Position);
-
-                Inc(Result);
+                    Inc(Result);
+                end;
             end;
         end;
     end;

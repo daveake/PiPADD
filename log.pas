@@ -76,6 +76,9 @@ begin
         end;
     end;
 end;
+
+// ColumnRoundedCorners
+
 initialization
   RegisterClass(TfrmLog);
 

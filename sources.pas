@@ -66,20 +66,20 @@ procedure TfrmSources.AfterLoad;
 
     procedure AfterHABLinkCreate(AForm: TObject);
     begin
-        frmHabitat := TfrmHabitat.CreateNew(pnlHABitat.ElementID, @AfterHabitatCreate);
         frmSplash.lblStatus.Caption := 'Loading sources: Habitat ...';
+        frmHabitat := TfrmHabitat.CreateNew(pnlHABitat.ElementID, @AfterHabitatCreate);
     end;
 
     procedure AfterGPSCreate(AForm: TObject);
     begin
-        frmHABLink := TfrmHABLink.CreateNew(pnlHABLink.ElementID, @AfterHABLinkCreate);
         frmSplash.lblStatus.Caption := 'Loading sources: HABLINK ...';
+        frmHABLink := TfrmHABLink.CreateNew(pnlHABLink.ElementID, @AfterHABLinkCreate);
     end;
 begin
     frmSplash.lblStatus.Caption := 'Loading sources: GPS ...';
 
     if frmMain.IsRaspberryPi then begin
-//        frmGPS := TfrmFakeGPS.CreateNew(pnlGPS.ElementID, @AfterGPSCreate);
+        // frmGPS := TfrmFakeGPS.CreateNew(pnlGPS.ElementID, @AfterGPSCreate);
         frmGPS := TfrmPiGPS.CreateNew(pnlGPS.ElementID, @AfterGPSCreate);
     end else begin
         frmGPS := TfrmFakeGPS.CreateNew(pnlGPS.ElementID, @AfterGPSCreate);
@@ -117,6 +117,8 @@ begin
     if frmLoRaHAT <> nil then frmLoRaHAT.AfterLoad;
     if frmPiLoRaSerial <> nil then frmPiLoRaSerial.AfterLoad;
     if frmWinLoRaSerial <> nil then frmWinLoRaSerial.AfterLoad;
+
+    frmMain.WebWaitMessage1.Hide;
 end;
 
 

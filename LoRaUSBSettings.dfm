@@ -130,7 +130,7 @@ inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
       ChildOrder = 1
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      OnClick = btnHabitatClick
+      OnClick = btnUploadClick
     end
     object edtDevice: TWebEdit
       Left = 136
@@ -149,7 +149,7 @@ inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
       WidthPercent = 100.000000000000000000
       OnChange = edtDeviceChange
     end
-    object btnHabitat: TWebButton
+    object btnUpload: TWebButton
       AlignWithMargins = True
       Left = 64
       Top = 109
@@ -159,7 +159,7 @@ inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
       ChildOrder = 1
       HeightPercent = 100.000000000000000000
       WidthPercent = 100.000000000000000000
-      OnClick = btnHabitatClick
+      OnClick = btnUploadClick
     end
   end
   inherited pnlButtons: TWebPanel
