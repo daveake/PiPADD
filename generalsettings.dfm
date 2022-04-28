@@ -1,5 +1,8 @@
 inherited frmGeneralSettings: TfrmGeneralSettings
   inherited pnlSettings: TWebPanel
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 663
     object WebLabel1: TWebLabel
       Left = 151
       Top = 12
@@ -30,6 +33,8 @@ inherited frmGeneralSettings: TfrmGeneralSettings
       Font.Style = []
       HeightPercent = 100.000000000000000000
       ParentFont = False
+      ShowFocus = False
+      SpellCheck = False
       WidthPercent = 100.000000000000000000
       OnChange = TextChanged
     end
@@ -70,7 +75,14 @@ inherited frmGeneralSettings: TfrmGeneralSettings
       OnClick = ButtonClick
     end
   end
+  inherited pnlButtons: TWebPanel
+    ExplicitTop = 125
+  end
   inherited pnlNotes: TWebPanel
+    ExplicitLeft = 0
+    ExplicitTop = 174
+    ExplicitWidth = 663
+    ExplicitHeight = 213
     inherited WebMemo1: TWebMemo
       Font.Height = -16
       Lines.Strings = (
@@ -86,6 +98,8 @@ inherited frmGeneralSettings: TfrmGeneralSettings
           '"Speech" enables text-to-speech for log entries.  Works on Andro' +
           'id only.')
       SelStart = 321
+      ExplicitWidth = 657
+      ExplicitHeight = 207
     end
   end
 end

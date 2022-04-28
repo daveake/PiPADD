@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, JS, Web, WEBLib.Graphics, WEBLib.Controls,
   WEBLib.Forms, WEBLib.Miletus, WEBLib.Dialogs, lora_serial, Vcl.Controls,
-  Vcl.StdCtrls, WEBLib.StdCtrls, WEBLib.USB;
+  Vcl.StdCtrls, WEBLib.StdCtrls, WEBLib.USB, WEBLib.ExtCtrls;
 
 type
   TfrmWinLoRaSerial = class(TfrmLoRaSerial)
@@ -21,7 +21,7 @@ type
     { Private declarations }
     procedure OpenPort;
   protected
-    procedure SendCommand(Command: String); override;
+    procedure SendCommandNow(Command: String); override;
   public
     { Public declarations }
   end;
@@ -62,7 +62,7 @@ begin
     end;
 end;
 
-procedure TfrmWinLoRaSerial.SendCommand(Command: String);
+procedure TfrmWinLoRaSerial.SendCommandNow(Command: String);
 var
     Buffer: TJSUint8Array;
     i: Integer;
@@ -72,7 +72,6 @@ begin
     for i := 1 to Length(Command) do begin
         Buffer[i-1] := Ord(Command[i]);
     end;
-
 
     WebUSBSerial1.Write(Buffer);
 end;

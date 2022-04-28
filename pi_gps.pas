@@ -20,6 +20,8 @@ type
     procedure tmrTimeoutTimer(Sender: TObject);
   private
     { Private declarations }
+    DeviceName: String;
+    [async] procedure OpenPort;
   protected
     procedure SendCommand(Command: TBytes); override;
   public
@@ -33,8 +35,34 @@ implementation
 
 procedure TfrmPiGPS.AfterLoad;
 begin
+    OpenPort;
+end;
+
+
+procedure TfrmPiGPS.OpenPort;
+var
+    INIFile: TMiletusINIFile;
+begin
+    INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
     try
-        lblStatus.Caption := 'Open port ...';
+        DeviceName := await(String, INIFile.ReadString('GPS', 'Device', ''));
+    finally
+        INIFile.Free;
+    end;
+
+    try
+        if DeviceName = '' then begin
+            // Use standard Pi serial port
+            MiletusRaspberryUART1.PortNum := firstPL011;
+
+            lblStatus.Caption := 'Open Standard Pi Serial Port ...';
+        end else begin
+            MiletusRaspberryUART1.PortNum := devUSB;
+            MiletusRaspberryUART1.USBDevice := DeviceName;
+
+            lblStatus.Caption := 'Open USB Serial Port ' + DeviceName + ' ...';
+        end;
+
         MiletusRaspberryUART1.Open;
     except
         lblStatus.Caption := 'Missing GPS Device';
@@ -54,7 +82,11 @@ end;
 
 procedure TfrmPiGPS.MiletusRaspberryUART1Open(Sender: TObject);
 begin
-    lblStatus.Caption := 'Port is open';
+    if DeviceName = '' then begin
+        lblStatus.Caption := 'Standard Pi Serial Port is open';
+    end else begin
+        lblStatus.Caption := 'USB Serial Port ' + DeviceName + ' is open';
+    end;
 
     tmrPoll.Enabled := True;
     tmrTimeout.Enabled := True;
@@ -96,7 +128,7 @@ end;
 
 procedure TfrmPiGPS.tmrTimeoutTimer(Sender: TObject);
 begin
-    lblStatus.Caption := 'No GPS Connected';
+    lblStatus.Caption := 'No data from GPS receiver';
     MiletusRaspberryUART1.Close;
 end;
 

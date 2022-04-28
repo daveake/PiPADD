@@ -65,8 +65,15 @@ procedure TfrmLoRaUSBSettings.btnSaveClick(Sender: TObject);
 begin
     inherited;
 
-    if frmPiLoRaSerial <> nil then frmPiLoRaSerial.ProgramDevicesFromSettings;
-    if frmWinLoRaSerial <> nil then frmWinLoRaSerial.ProgramDevicesFromSettings;
+    if frmPiLoRaSerial <> nil then begin
+        frmPiLoRaSerial.LoadSettings;
+        // frmPiLoRaSerial.ProgramDevicesFromSettings;
+    end;
+
+    if frmWinLoRaSerial <> nil then begin
+        frmWinLoRaSerial.LoadSettings;
+        // frmWinLoRaSerial.ProgramDevicesFromSettings;
+    end;
 end;
 
 procedure TfrmLoRaUSBSettings.edtDeviceChange(Sender: TObject);
@@ -76,6 +83,8 @@ end;
 
 procedure TfrmLoRaUSBSettings.MiletusFormCreate(Sender: TObject);
 begin
+    inherited;
+
     //
 end;
 

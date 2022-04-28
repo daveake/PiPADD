@@ -54,7 +54,7 @@ type
         lblPayload: TWebLabel;
         lblBottomLeft: TWebLabel;
         lblGPSStatus: TWebLabel;
-        lblLoRaStatus1: TWebLabel;
+    lblCE0: TWebLabel;
         lblGPS: TWebLabel;
         lblTopLeft: TWebLabel;
         pnlSources: TWebPanel;
@@ -75,7 +75,7 @@ type
         lblHABHUBUplinkStatus: TWebLabel;
         lblHABLINKUplinkStatus: TWebLabel;
         tmrScreenUpdates: TWebTimer;
-        lblLoRaStatus2: TWebLabel;
+    lblCE1: TWebLabel;
         lblHABHUBStatus: TWebLabel;
         lblUSB: TWebLabel;
         tmrSources: TWebTimer;
@@ -115,6 +115,7 @@ type
         procedure ShowSelectedPayloadPosition;
         procedure WhereIsBalloon(PayloadIndex: Integer);
         procedure WhereAreBalloons;
+        procedure DoPayloadCalcs(PayloadIndex: Integer);
         [async]
         procedure Initialise;
     public
@@ -123,10 +124,8 @@ type
         LastChaseUpload: TDateTime;
         Payloads: Array [0 .. 3] of TPayload;
         SelectedIndex: Integer;
-        procedure ShowTargetStatus(TargetID: Integer;
-          Enabled, Connected: Boolean);
-        procedure ShowSourceStatus(SourceID: Integer;
-          Enabled, Connected, GotData: Boolean);
+        procedure ShowTargetStatus(TargetID: Integer; Enabled, Connected: Boolean);
+        procedure ShowSourceStatus(SourceID: Integer; Enabled, Connected, GotData: Boolean);
         // [async] procedure NewGPSPosition(Position: THABPosition);
         // [async] procedure NewPosition(SourceID: Integer; Position: THABPosition);
         procedure ShowSettings(PageIndex: Integer);
@@ -213,26 +212,23 @@ begin
 
     IsRaspberryPi := os.Platform = opLinux;
 
-    if IsRaspberryPi then
-    begin
+    if IsRaspberryPi then begin
         Self.WindowState := wsMaximized;
         Self.BorderStyle := bsNoneBorder;
-    end
-    else
-    begin
+    end else begin
         Self.BorderStyle := bsSizeableBorder; // bsSingleBorder;
         Self.WindowState := wsNormal;
-        lblLoRaStatus1.Visible := False;
-        lblLoRaStatus2.Visible := False;
+        lblCE0.Visible := False;
+        lblCE1.Visible := False;
     end;
 
     ActivePanel := nil;
     ActiveForm := nil;
 
     HABSources[0].SourceLabel := lblGPSStatus;
-    HABSources[1].SourceLabel := lblLoRaStatus1;
-    HABSources[2].SourceLabel := lblLoRaStatus2;
-    HABSources[3].SourceLabel := lblUSB;;
+    HABSources[1].SourceLabel := lblCE0;
+    HABSources[2].SourceLabel := lblCE1;
+    HABSources[3].SourceLabel := lblUSB;
     HABSources[4].SourceLabel := lblHABLinkStatus;
     HABSources[5].SourceLabel := lblHABHUBStatus;
 
@@ -257,27 +253,18 @@ begin
     AddCSS('BottomRight', '.BottomRight {border-radius: 0px 0px 12px 0px}');
     AddCSS('BottomLeft', '.BottomLeft {border-radius: 0px 0px 0px 12px}');
 
-    AddCSS('RoundedCorners',
-      '.RoundedCorners {border-radius: 24px; background: #0; border: 2px solid  #ffff00; padding: 20px;}');
-    AddCSS('RoundedButton',
-      '.RoundedButton {border-radius: 24px; background: #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
-    AddCSS('RoundedLabel',
-      '.RoundedLabel {border-radius: 24px;  background: #0; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 36px; color: #ffff00;}');
-    AddCSS('ColumnRoundedCorners',
-      '.ColumnRoundedCorners {border-radius: 24px; background: #0; border: 2px solid  #ffff00; padding: 20px; width: 33%;}');
+    AddCSS('RoundedCorners', '.RoundedCorners {border-radius: 12px; background: #0; border: 2px solid  #ffff00; padding: 20px;}');
+    AddCSS('RoundedButton', '.RoundedButton {border-radius: 24px; background: #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
+    AddCSS('RoundedLabel', '.RoundedLabel {border-radius: 24px;  background: #0; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 36px; color: #ffff00;}');
+    AddCSS('ColumnRoundedCorners', '.ColumnRoundedCorners {border-radius: 24px; background: #0; border: 2px solid  #ffff00; padding: 20px; width: 33%;}');
 
-    AddCSS('BooleanButtonOn',
-      '.BooleanButtonOn {border-radius: 24px; background: #ffff00; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px; color: #0;}');
-    AddCSS('BooleanButtonOff',
-      '.BooleanButtonOff {border-radius: 24px; background: #000000; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px; color: #ffff00;}');
+    AddCSS('BooleanButtonOn', '.BooleanButtonOn {border-radius: 24px; background: #ffff00; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px; color: #0;}');
+    AddCSS('BooleanButtonOff', '.BooleanButtonOff {border-radius: 24px; background: #000000; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px; color: #ffff00;}');
 
-    AddCSS('PushButtonOn',
-      '.PushButtonOn {border-radius: 24px; background: #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
-    AddCSS('PushButtonOff',
-      '.PushButtonOff {border-radius: 24px; background: #a99c4e; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
+    AddCSS('PushButtonOn', '.PushButtonOn {border-radius: 24px; background: #ffff00; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
+    AddCSS('PushButtonOff', '.PushButtonOff {border-radius: 24px; background: #a99c4e; font-family:''Swiss911 UCm BT''; font-size: 24px;}');
 
-    AddCSS('SettingsButton',
-      '.SettingsButton {border-radius: 24px; background: #000000; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 14px; color: #ffff00;}');
+    AddCSS('SettingsButton', '.SettingsButton {border-radius: 24px; background: #000000; border: 2px solid  #ffff00; font-family:''Swiss911 UCm BT''; font-size: 14px; color: #ffff00;}');
 
     lblTopLeft.ElementClassName := 'TopLeft';
     lblTopRight.ElementClassName := 'TopRight';
@@ -312,12 +299,11 @@ begin
                 end;
 
                 // Selected payload only
-                if PayloadIndex = SelectedIndex then
-                begin
-                    // if frmDirection <> nil then frmDirection.NewPosition(PayloadIndex, Payloads[Index].Position);
+                if PayloadIndex = SelectedIndex then begin
+                    if frmDirection <> nil then begin
+                        frmDirection.NewPosition(PayloadIndex, Payloads[PayloadIndex].Position);
+                    end;
                     ShowSelectedPayloadPosition;
-
-                    // frmDirection.NewPosition(PayloadIndex, Payloads[PayloadIndex].Position);
                 end;
             end;
 
@@ -345,8 +331,7 @@ begin
     begin
         if HABSources[SourceIndex].LastReceivedAt > 0 then
         begin
-            if Now > (HABSources[SourceIndex].LastReceivedAt + 60 / 86400) then
-            begin
+            if Now > (HABSources[SourceIndex].LastReceivedAt + 60 / 86400) then begin
                 HABSources[SourceIndex].SourceLabel.Font.Color := clRed;
             end;
         end;
@@ -380,13 +365,9 @@ begin
                 PayloadIndex := PlacePayloadInList(SourceID);
 
                 if PayloadIndex > 0 then begin
-                    Payloads[PayloadIndex].Position := HABPositions[SourceID];
-
                     if Payloads[PayloadIndex].LoggedLoss then begin
                         Payloads[PayloadIndex].LoggedLoss := False;
-                        frmLog.AddMessage
-                          (Payloads[PayloadIndex].Position.PayloadID,
-                          'Signal Regained', True, False);
+                        frmLog.AddMessage(Payloads[PayloadIndex].Position.PayloadID, 'Signal Regained', True, False);
                     end;
 
                     PositionOK := (Payloads[PayloadIndex].Position.Latitude <> 0.0) or (Payloads[PayloadIndex].Position.Longitude <> 0.0);
@@ -674,25 +655,17 @@ begin
           (HABPositions[SourceID].Counter <> Payloads[PayloadIndex].Position.Counter);
 
         if PayloadChanged or PositionChanged then begin
-            // Retrieve previous flight mode
-            HABPositions[SourceID].FlightMode := Payloads[PayloadIndex].Previous.FlightMode;
-
-            // Calculate ascent rate etc
-            // DoPayloadCalcs(Payloads[PayloadIndex].Previous, Position);
-
             // Update buttons
-            Payloads[PayloadIndex].Button.Caption := HABPositions[SourceID]
-              .PayloadID;
+            Payloads[PayloadIndex].Button.Caption := HABPositions[SourceID].PayloadID;
             Payloads[PayloadIndex].Button.Color := $006FDFF1;
             Payloads[PayloadIndex].Button.Font.Color := clGreen;
             Payloads[PayloadIndex].LastReceivedAt := Now;
 
-            // Store new position
             Payloads[PayloadIndex].Previous := Payloads[PayloadIndex].Position;
 
-            // Position.TelemetryCount := Payloads[Index].Previous.TelemetryCount + 1;
-
             Payloads[PayloadIndex].Position := HABPositions[SourceID];
+
+            DoPayloadCalcs(PayloadIndex);
 
             (*
               // Select payload if it's the only one
@@ -711,43 +684,78 @@ begin
     // end;
 end;
 
-procedure TfrmMain.ShowSelectedPayloadPosition;
+procedure TfrmMain.DoPayloadCalcs(PayloadIndex: Integer);
+const
+    FlightModes: Array[0..8] of String = ('Idle', 'Launched', 'Descending', 'Homing', 'Direct To Target', 'Downwind', 'Upwind', 'Landing', 'Landed');
 begin
-    with Payloads[SelectedIndex].Position do
-    begin
-        // lblPayload.Caption := FormatDateTime('hh:nn:ss', TimeStamp) + '  ' +
-        // Format('%2.6f', [Latitude]) + ',' +
-        // Format('%2.6f', [Longitude]) + ' at ' +
-        // Format('%.0f', [Altitude]) + 'm';
+    with Payloads[PayloadIndex] do begin
+        Position.AscentRate := (Position.Altitude - Previous.Altitude) / (86400 * (Position.TimeStamp - Previous.TimeStamp));
+        Position.MaxAltitude := max(Position.Altitude, Previous.MaxAltitude);
+
+        // Default is no change to flight mode
+        Position.FlightMode := Previous.FlightMode;
+
+        // Flight mode
+        case Previous.FlightMode of
+            fmIdle: begin
+                if ((Position.AscentRate > 2.0) and (Position.Altitude > 100)) or
+                   (Position.Altitude > 5000) or
+                   (Abs(Position.AscentRate) > 20) or
+                   ((Position.AscentRate > 1.0) and (Position.Altitude > 300)) then begin
+                    Position.FlightMode := fmLaunched;
+                end;
+            end;
+
+            fmLaunched: begin
+                if Position.AscentRate < -4 then begin
+                    Position.FlightMode := fmDescending;
+                end;
+            end;
+
+            fmDescending: begin
+                if Position.AscentRate > -1 then begin
+                    Position.FlightMode := fmLanded;
+                end;
+            end;
+
+            fmLanded: begin
+                if ((Position.AscentRate > 3.0) and (Position.Altitude > 100)) or
+                   ((Position.AscentRate > 2.0) and (Position.Altitude > 500)) then begin
+                    Position.FlightMode := fmLaunched;
+                end;
+            end;
+        end;
+
+        if Position.FlightMode = fmDescending then begin
+            Position.DescentTime := CalculateDescentTime(Position.Altitude, -Position.AscentRate, HABPositions[GPS_SOURCE].Altitude) / 86400;
+        end;
     end;
 end;
 
-procedure TfrmMain.ShowSourceStatus(SourceID: Integer;
-  Enabled, Connected, GotData: Boolean);
+procedure TfrmMain.ShowSelectedPayloadPosition;
 begin
-    if (SourceID >= Low(HABSources)) and (SourceID <= High(HABSources)) then
-    begin
-        if Enabled then
-        begin
-            if Connected then
-            begin
+    with Payloads[SelectedIndex].Position do begin
+         lblPayload.Caption := FormatDateTime('hh:nn:ss', TimeStamp) + '  ' + Format('%2.6f', [Latitude]) + ',' + Format('%2.6f', [Longitude]) + ' at ' + Format('%.0f', [Altitude]) + 'm';
+    end;
+end;
+
+procedure TfrmMain.ShowSourceStatus(SourceID: Integer; Enabled, Connected, GotData: Boolean);
+begin
+    if (SourceID >= Low(HABSources)) and (SourceID <= High(HABSources)) then begin
+        if Enabled then begin
+            if Connected then begin
                 HABSources[SourceID].SourceLabel.Color := $006FDFF1;
 
-                if GotData then
-                begin
+                if GotData then begin
                     HABSources[SourceID].LastReceivedAt := Now;
                     HABSources[SourceID].SourceLabel.Font.Color := clGreen;
                 end;
-            end
-            else
-            begin
+            end else begin
                 HABSources[SourceID].SourceLabel.Color := clRed;
                 HABSources[SourceID].SourceLabel.Font.Color := clBlack;
                 HABSources[SourceID].LastReceivedAt := 0;
             end;
-        end
-        else
-        begin
+        end else begin
             HABSources[SourceID].SourceLabel.Color := $004E9CA9;
             HABSources[SourceID].SourceLabel.Font.Color := clBlack;
         end;
@@ -778,67 +786,9 @@ begin
     end;
 end;
 
-(*
-  procedure TfrmMain.NewGPSPosition(Position: THABPosition);
-  const
-  LastUpload: TDateTime = 0;
-  var
-  INIFile: TMiletusINIFile;
-  Callsign: String;
-  Period: Integer;
-  begin
-  if (Position.Longitude <> 0) or (Position.Latitude <> 0) or (Position.Altitude <> 0) then begin
-  ShowSourceStatus(0, True, True, True);
-
-  Car.Position := Position;
-  Car.HasPosition := True;
-
-  lblGPS.Caption := FormatDateTime('hh:nn:ss', Position.TimeStamp) + ' , ' +
-  FormatFloat('0.00000', Position.Latitude) + ', ' +
-  FormatFloat('0.00000', Position.Longitude) + ', ' +
-  FormatFloat('0', Position.Altitude) + 'm, ' +
-  IntToStr(Position.Satellites) + ' sats';
-
-  lblGPSStatus.Font.Color := clGreen;
-
-  WhereAreBalloons;
-
-  frmMap.NewPosition(0, Position);
-
-  frmDirection.NewPosition(0, Position);
-
-  // Time for an upload ?
-  INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
-
-
-  if await(Boolean, INIFile.ReadBool('Chase', 'Enabled', False)) then begin
-  Callsign := await(String, INIFile.ReadString('Chase', 'Callsign', ''));
-  Period := await(Integer, INIFile.ReadString('Chase', 'Period', ''));
-  if (Period > 0) and (Now > (LastUpload + Period/86400)) and (Callsign <> '') then begin
-  // Time for car uploads
-  if await(Boolean, INIFile.ReadBool('Upload', 'HabLinkEnabled', False)) then begin
-  // Hablink upload
-  LastUpload := Now;
-  frmHABLink.SendGPSPosition(Callsign, Position);
-  end;
-  if await(Boolean, INIFile.ReadBool('Upload', 'HabitatEnabled', False)) then begin
-  // Habitat upload
-  LastUpload := Now;
-  frmHabitat.UploadCarPosition(Callsign, Car.Position);
-  end;
-  end;
-  end;
-  INIFile.Free;
-  end else begin
-  ShowSourceStatus(0, True, True, False);
-  end;
-  end;
-*)
-
 procedure TfrmMain.WhereIsBalloon(PayloadIndex: Integer);
 begin
-    if (Payloads[0].Position.Latitude <> 0) or (Payloads[0].Position.Longitude <> 0) then
-    begin
+    if (Payloads[0].Position.Latitude <> 0) or (Payloads[0].Position.Longitude <> 0) then begin
         Payloads[PayloadIndex].Position.DirectionValid := True;
         // Horizontal distance to payload
         Payloads[PayloadIndex].Position.Distance :=
@@ -857,8 +807,7 @@ begin
           Payloads[PayloadIndex].Position.Longitude,
           Payloads[PayloadIndex].Position.Altitude);
 
-        if Payloads[PayloadIndex].Position.ContainsPrediction then
-        begin
+        if Payloads[PayloadIndex].Position.ContainsPrediction then begin
             // Horizontal distance to payload
             Payloads[PayloadIndex].Position.PredictionDistance :=
               CalculateDistance(Payloads[0].Position.Latitude, Payloads[0].Position.Longitude,
@@ -872,9 +821,7 @@ begin
               Payloads[0].Position.Latitude, Payloads[0].Position.Longitude) -
               Payloads[0].Position.Direction;
         end;
-    end
-    else
-    begin
+    end else begin
         Payloads[PayloadIndex].Position.DirectionValid := False;
     end;
 end;

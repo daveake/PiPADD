@@ -224,11 +224,6 @@ end;
 procedure TfrmHABLink.ProcessHABPosition(Parameters: String);
 const
     ColourTexts: Array[0..3] of String = ('blue', 'red', 'green', 'yellow');
-    FirstTime: Boolean = True;
-var
-    TimeStamp: String;
-    UTC: TDateTime;
-    Start: Integer;
 begin
     with HABPositions[HABLINK_SOURCE] do begin
         PayloadID := GetParameter(Parameters, 'ID');

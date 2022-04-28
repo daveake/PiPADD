@@ -28,15 +28,15 @@ inherited frmSources: TfrmSources
   object pnlGPS: TWebPanel
     AlignWithMargins = True
     Left = 0
-    Top = 317
+    Top = 328
     Width = 663
-    Height = 70
+    Height = 59
     Margins.Left = 0
     Margins.Right = 0
     Margins.Bottom = 0
     ElementID = 'pnlGPS'
     HeightStyle = ssPercent
-    HeightPercent = 16.000000000000000000
+    HeightPercent = 14.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alClient
     BorderColor = clYellow
@@ -49,11 +49,13 @@ inherited frmSources: TfrmSources
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
+    ExplicitTop = 317
+    ExplicitHeight = 70
   end
   object pnlHABLink: TWebPanel
     AlignWithMargins = True
     Left = 0
-    Top = 189
+    Top = 200
     Width = 663
     Height = 61
     Margins.Left = 0
@@ -74,19 +76,20 @@ inherited frmSources: TfrmSources
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
+    ExplicitTop = 189
   end
   object pnlLoRaSerial: TWebPanel
     AlignWithMargins = True
     Left = 0
     Top = 125
     Width = 663
-    Height = 61
+    Height = 72
     Margins.Left = 0
     Margins.Right = 0
     Margins.Bottom = 0
     ElementID = 'pnlLoRaSerial'
     HeightStyle = ssPercent
-    HeightPercent = 16.000000000000000000
+    HeightPercent = 18.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alTop
     BorderColor = clYellow
@@ -103,7 +106,7 @@ inherited frmSources: TfrmSources
   object pnlHabitat: TWebPanel
     AlignWithMargins = True
     Left = 0
-    Top = 253
+    Top = 264
     Width = 663
     Height = 61
     Margins.Left = 0
@@ -124,6 +127,7 @@ inherited frmSources: TfrmSources
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
+    ExplicitTop = 253
   end
   object tmrInit: TWebTimer
     Enabled = False

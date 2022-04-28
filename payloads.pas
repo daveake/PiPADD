@@ -14,12 +14,11 @@ type
     pnlPayload1: TWebPanel;
     pnlPayload3: TWebPanel;
     pnlPayload2: TWebPanel;
-    lstPayload3: TTMSFNCListBox;
     procedure MiletusFormResize(Sender: TObject);
     procedure MiletusFormCreate(Sender: TObject);
   private
     { Private declarations }
-    Labels: Array[1..3, 1..6] of TWebLabel;
+    Labels: Array[1..3, 1..10] of TWebLabel;
   public
     { Public declarations }
     procedure NewPosition(Index: Integer; Position: THABPosition); override;
@@ -40,10 +39,10 @@ begin
 
 
     for j := 1 to 3 do begin
-        for i := 1 to 6 do begin
+        for i := 1 to 10 do begin
             Labels[j, i] := TWebLabel.Create(nil);
             with Labels[j, i] do begin
-                Height := 45;
+                Height := 40;
                 Align := alTop;
                 Alignment := taCenter;
                 Font.Color := clWhite;
@@ -54,6 +53,11 @@ begin
                     3:  Parent := pnlPayload3;
                 end;
             end;
+        end;
+
+        with Labels[j, 1] do begin
+            AlignWithMargins := True;
+            Margins.Top := 8;
         end;
     end;
 
@@ -73,6 +77,8 @@ end;
 
 
 procedure TfrmPayloads.NewPosition(Index: Integer; Position: THABPosition);
+const
+    FlightModes: Array[0..8] of String = ('Idle', 'Launched', 'Descending', 'Homing', 'Direct To Target', 'Downwind', 'Upwind', 'Landing', 'Landed');
 begin
     if Index in [1..3] then begin
         Labels[Index, 1].Caption := Position.PayloadID;
@@ -81,6 +87,13 @@ begin
         Labels[Index, 4].Caption := FormatFloat('0.00000', Position.Longitude);
         Labels[Index, 5].Caption := FormatFloat('0', Position.Altitude) + ' m';
         Labels[Index, 6].Caption := IntToStr(Position.Satellites) + ' sats';
+        Labels[Index, 7].Caption := FormatFloat('0.0', Position.AscentRate) + ' m/s';
+        Labels[Index, 8].Caption := FlightModes[Ord(Position.FlightMode)];
+
+        if Position.ContainsPrediction then begin
+            Labels[Index, 9].Caption := FormatFloat('0.00000', Position.PredictedLatitude);
+            Labels[Index, 10].Caption := FormatFloat('0.00000', Position.PredictedLongitude);
+        end;
     end;
 end;
 

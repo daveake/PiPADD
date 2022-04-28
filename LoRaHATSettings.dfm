@@ -1,6 +1,9 @@
 inherited frmLoRaHATSettings: TfrmLoRaHATSettings
   inherited pnlSettings: TWebPanel
     Height = 162
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 663
     ExplicitHeight = 162
     object WebLabel1: TWebLabel
       Left = 14
@@ -224,16 +227,18 @@ inherited frmLoRaHATSettings: TfrmLoRaHATSettings
     end
   end
   inherited pnlButtons: TWebPanel
-    Top = 171
-    ExplicitTop = 171
+    Top = 165
+    ExplicitTop = 165
   end
   inherited pnlNotes: TWebPanel
-    Top = 223
-    Height = 161
-    ExplicitTop = 223
-    ExplicitHeight = 161
+    Top = 214
+    Height = 173
+    ExplicitLeft = 0
+    ExplicitTop = 214
+    ExplicitWidth = 663
+    ExplicitHeight = 173
     inherited WebMemo1: TWebMemo
-      Height = 155
+      Height = 167
       Lines.Strings = (
         
           'Set the frequency and mode to match your payload.  These setting' +
@@ -244,7 +249,8 @@ inherited frmLoRaHATSettings: TfrmLoRaHATSettings
           'ice to '
         'Habitat.')
       SelStart = 209
-      ExplicitHeight = 155
+      ExplicitWidth = 657
+      ExplicitHeight = 167
     end
   end
   object btnUpload: TWebButton

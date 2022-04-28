@@ -18,9 +18,13 @@ type
     procedure MiletusFormCreate(Sender: TObject);
   private
     { Private declarations }
+    DeviceName: String;
     [async] procedure OpenPort;
+  protected
+    procedure SendCommandNow(Command: String); override;
   public
     { Public declarations }
+    [async] procedure LoadSettings; override;
     procedure AfterLoad; override;
   end;
 
@@ -28,6 +32,8 @@ var
   frmPiLoRaSerial: TfrmPiLoRaSerial;
 
 implementation
+
+uses Main;
 
 {$R *.dfm}
 
@@ -39,7 +45,6 @@ end;
 procedure TfrmPiLoRaSerial.OpenPort;
 var
     INIFile: TMiletusINIFile;
-    DeviceName: String;
 begin
     INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
     try
@@ -62,6 +67,21 @@ begin
     end;
 end;
 
+procedure TfrmPiLoRaSerial.LoadSettings;
+var
+    INIFile: TMiletusINIFile;
+begin
+    INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
+    try
+        LoRaSettings[0].Frequency := StrToFloat(await(String, INIFile.ReadString('LoRaUSB', 'Frequency', '434.500')));
+        LoRaSettings[0].Mode := StrToIntDef(await(String, INIFile.ReadString('LoRaUSB', 'Mode', '1')), 1);
+        LoRaSettings[0].AFC := await(Boolean, INIFile.ReadBool('LoRaUSB', 'AFC', False));
+    finally
+        INIFile.Free;
+    end;
+
+    ProgramDevicesFromSettings;
+end;
 
 procedure TfrmPiLoRaSerial.MiletusFormCreate(Sender: TObject);
 begin
@@ -72,13 +92,20 @@ end;
 
 procedure TfrmPiLoRaSerial.MiletusRaspberryUART1Close(Sender: TObject);
 begin
+    Connected := False;
     lblStatus.Caption := 'Port ' + MiletusRaspberryUART1.USBDevice + ' is closed';
     tmrPoll.Enabled := False;
 end;
 
 procedure TfrmPiLoRaSerial.MiletusRaspberryUART1Open(Sender: TObject);
 begin
+    Connected := True;
+
     lblStatus.Caption := 'Port ' + MiletusRaspberryUART1.USBDevice + ' is open';
+
+    ProgramDeviceFromSettings(0);
+
+    frmMain.ShowSourceStatus(SourceOffset, True, True, False);
 
     tmrPoll.Enabled := True;
 end;
@@ -108,6 +135,18 @@ begin
 
     tmrPoll.Enabled := True;
 end;
+
+procedure TfrmPiLoRaSerial.SendCommandNow(Command: String);
+var
+    Bytes: TBytes;
+begin
+    Bytes := BytesOf(Command);
+
+    MiletusRaspberryUART1.WriteBuffer(Bytes, Length(Bytes));
+
+    Bytes := nil;
+end;
+
 
 initialization
   RegisterClass(TfrmPiLoRaSerial);

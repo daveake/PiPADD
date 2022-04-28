@@ -29,4 +29,21 @@ inherited frmLoRaSerial: TfrmLoRaSerial
     WordWrap = True
     WidthPercent = 100.000000000000000000
   end
+  object lstCommands: TWebListBox
+    Left = 492
+    Top = 36
+    Width = 65
+    Height = 61
+    HeightPercent = 100.000000000000000000
+    ItemHeight = 30
+    ItemIndex = -1
+    Visible = False
+    WidthPercent = 100.000000000000000000
+  end
+  object tmrCommands: TWebTimer
+    Interval = 300
+    OnTimer = tmrCommandsTimer
+    Left = 332
+    Top = 64
+  end
 end

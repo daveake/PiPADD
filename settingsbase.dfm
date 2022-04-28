@@ -1,10 +1,9 @@
 inherited frmSettingsBase: TfrmSettingsBase
   OnCreate = MiletusFormCreate
   object pnlSettings: TWebPanel
-    AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 657
+    Left = 0
+    Top = 0
+    Width = 663
     Height = 122
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -12,11 +11,14 @@ inherited frmSettingsBase: TfrmSettingsBase
     BorderColor = clYellow
     BorderStyle = bsSingle
     Color = clBlack
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 657
   end
   object pnlButtons: TWebPanel
     AlignWithMargins = True
     Left = 3
-    Top = 131
+    Top = 125
     Width = 657
     Height = 46
     HeightPercent = 100.000000000000000000
@@ -26,6 +28,7 @@ inherited frmSettingsBase: TfrmSettingsBase
     BorderStyle = bsNone
     ChildOrder = 1
     Color = clBlack
+    ExplicitTop = 131
     object btnCancel: TWebButton
       AlignWithMargins = True
       Left = 493
@@ -53,11 +56,10 @@ inherited frmSettingsBase: TfrmSettingsBase
     end
   end
   object pnlNotes: TWebPanel
-    AlignWithMargins = True
-    Left = 3
-    Top = 183
-    Width = 657
-    Height = 201
+    Left = 0
+    Top = 174
+    Width = 663
+    Height = 213
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alClient
@@ -66,12 +68,16 @@ inherited frmSettingsBase: TfrmSettingsBase
     ChildOrder = 2
     Color = clBlack
     Enabled = False
+    ExplicitLeft = 3
+    ExplicitTop = 183
+    ExplicitWidth = 657
+    ExplicitHeight = 201
     object WebMemo1: TWebMemo
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 651
-      Height = 195
+      Width = 657
+      Height = 207
       TabStop = False
       Align = alClient
       AutoSize = False
@@ -89,6 +95,8 @@ inherited frmSettingsBase: TfrmSettingsBase
       ShowFocus = False
       SpellCheck = False
       WidthPercent = 100.000000000000000000
+      ExplicitWidth = 651
+      ExplicitHeight = 195
     end
   end
 end

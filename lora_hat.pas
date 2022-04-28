@@ -55,6 +55,7 @@ type
     [async] function GetPacket(Channel: Integer): TPacket;
     [async] function SetDeviceMode(Channel, Mode: Integer): TJSPromise;
     [async] procedure Listen(Channel: Integer);
+    [async] procedure LoadSettings; override;
     procedure AfterLoad; override;
   end;
 
@@ -156,6 +157,24 @@ begin
 
         Devices[Channel].StatusLabel.Caption := 'Opening SPI CE' + IntToStr(Channel);
         Devices[Channel].SPIDevice.Open;
+    end;
+end;
+
+procedure TfrmLoRaHAT.LoadSettings;
+var
+    INIFile: TMiletusINIFile;
+begin
+    INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
+    try
+        LoRaSettings[0].Frequency := StrToFloat(await(String, INIFile.ReadString('LoRaHAT', 'Frequency0', '869.850')));
+        LoRaSettings[0].Mode := StrToIntDef(await(String, INIFile.ReadString('LoRaHAT', 'Mode0', '1')), 1);
+        LoRaSettings[0].AFC := await(Boolean, INIFile.ReadBool('LoRaHAT', 'AFC0', False));
+
+        LoRaSettings[1].Frequency := StrToFloat(await(String, INIFile.ReadString('LoRaHAT', 'Frequency1', '434.250')));
+        LoRaSettings[1].Mode := StrToIntDef(await(String, INIFile.ReadString('LoRaHAT', 'Mode1', '1')), 1);
+        LoRaSettings[1].AFC := await(Boolean, INIFile.ReadBool('LoRaHAT', 'AFC1', False));
+    finally
+        INIFile.Free;
     end;
 end;
 

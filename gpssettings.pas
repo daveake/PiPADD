@@ -14,6 +14,8 @@ type
     btnUpload: TWebButton;
     WebLabel2: TWebLabel;
     edtPeriod: TWebEdit;
+    WebLabel3: TWebLabel;
+    edtDevice: TWebEdit;
     procedure TextChanged(Sender: TObject);
     procedure ButtonClick(Sender: TObject);
   private
@@ -39,6 +41,7 @@ var
 begin
     INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
     try
+        INIFile.WriteString('GPS', 'Device', edtDevice.Text);
         INIFile.WriteString('Chase', 'Callsign', edtCallsign.Text);
         INIFile.WriteString('Chase', 'Period', edtPeriod.Text);
         INIFile.WriteBool('Chase', 'Enabled', SettingsButtonToBoolean(btnUpload));
@@ -65,6 +68,7 @@ var
 begin
     INIFile := TMiletusIniFile.Create(ParamStr(0) + '.INI');
     try
+        edtDevice.Text := await(String, INIFile.ReadString('GPS', 'Device', ''));
         edtCallsign.Text := await(String, INIFile.ReadString('Chase', 'Callsign', ''));
         edtPeriod.Text := await(String, INIFile.ReadString('Chase', 'Period', ''));
         SetSettingsButtonFromBoolean(btnUpload, await(Boolean, INIFile.ReadBool('Chase', 'Enabled', False)));

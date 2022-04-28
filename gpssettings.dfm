@@ -1,8 +1,13 @@
 inherited frmGPSSettings: TfrmGPSSettings
   inherited pnlSettings: TWebPanel
+    Height = 109
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 663
+    ExplicitHeight = 109
     object WebLabel1: TWebLabel
       Left = 20
-      Top = 16
+      Top = 59
       Width = 141
       Height = 32
       Alignment = taRightJustify
@@ -17,8 +22,8 @@ inherited frmGPSSettings: TfrmGPSSettings
       WidthPercent = 100.000000000000000000
     end
     object WebLabel2: TWebLabel
-      Left = 58
-      Top = 72
+      Left = 451
+      Top = 62
       Width = 103
       Height = 32
       Alignment = taRightJustify
@@ -32,9 +37,25 @@ inherited frmGPSSettings: TfrmGPSSettings
       ParentFont = False
       WidthPercent = 100.000000000000000000
     end
+    object WebLabel3: TWebLabel
+      Left = 35
+      Top = 12
+      Width = 126
+      Height = 32
+      Alignment = taRightJustify
+      Caption = 'GPS Device:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -24
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      HeightPercent = 100.000000000000000000
+      ParentFont = False
+      WidthPercent = 100.000000000000000000
+    end
     object edtCallsign: TWebEdit
       Left = 176
-      Top = 13
+      Top = 56
       Width = 167
       Height = 41
       ChildOrder = 1
@@ -51,10 +72,10 @@ inherited frmGPSSettings: TfrmGPSSettings
     end
     object btnUpload: TWebButton
       AlignWithMargins = True
-      Left = 440
-      Top = 34
-      Width = 189
-      Height = 50
+      Left = 474
+      Top = 10
+      Width = 167
+      Height = 40
       Caption = 'Enable upload'
       ChildOrder = 1
       HeightPercent = 100.000000000000000000
@@ -62,9 +83,26 @@ inherited frmGPSSettings: TfrmGPSSettings
       OnClick = ButtonClick
     end
     object edtPeriod: TWebEdit
+      Left = 560
+      Top = 59
+      Width = 81
+      Height = 41
+      ChildOrder = 1
+      Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -24
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      HeightPercent = 100.000000000000000000
+      ParentFont = False
+      WidthPercent = 100.000000000000000000
+      OnChange = TextChanged
+    end
+    object edtDevice: TWebEdit
       Left = 176
-      Top = 69
-      Width = 167
+      Top = 9
+      Width = 281
       Height = 41
       ChildOrder = 1
       Color = clBlack
@@ -79,9 +117,23 @@ inherited frmGPSSettings: TfrmGPSSettings
       OnChange = TextChanged
     end
   end
+  inherited pnlButtons: TWebPanel
+    Top = 112
+    ExplicitTop = 125
+  end
   inherited pnlNotes: TWebPanel
+    Top = 161
+    Height = 226
+    ExplicitLeft = 0
+    ExplicitTop = 174
+    ExplicitWidth = 663
+    ExplicitHeight = 213
     inherited WebMemo1: TWebMemo
+      Height = 220
       Lines.Strings = (
+        
+          '"GPS Device" defaults to Pi serial pot.  Fill in if using USB GP' +
+          'S.'
         
           '"Enable Upload" enables uploading of your position to Habitat, w' +
           'here it will '
@@ -93,7 +145,9 @@ inherited frmGPSSettings: TfrmGPSSettings
         
           '"Period" is the time, in seconds, between position updates to Ha' +
           'bitat.')
-      SelStart = 311
+      SelStart = 379
+      ExplicitWidth = 657
+      ExplicitHeight = 207
     end
   end
 end

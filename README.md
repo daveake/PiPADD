@@ -3,18 +3,23 @@ Pi PADD HAB Chase App
 
 This is an all-in-one program for receiving LoRa HAB telemetry and showing the balloon on a Google map.
 
-Its for Raspberry Pi only, ideally with a touchscreen (the official 7" touchscreen works very well).
+Its for Raspberry Pi only,  It has ben tested with the following hardware:
+
+- Pi 3B, Pi 4B
+- Uputronics LoRa HAT, Uputronics LoRa Go USB, TTGO T-Beam USB/LoRa (with my receiver firmware)
+- Uputronics GPS HAT, UBlox USB GPS
+- Official Pi 7" touchscreen monitor, 7" HDMI/USB touchscreen monitor, Raspad 3
+
 
 This application performs the most important functions needed when chasing a balloon:
 
-- Receives local (GPS) location from a serial GPS receiver, and uploads to Habitat server
-- Receives tracker telemetry via LoRa SPI receiver, and uploads to Habitat server
+- Receives local (GPS) location from a serial GPS (HAT or USB) receiver, and uploads to Habitat server
+- Receives tracker telemetry via LoRa HAT or USB receiver, and uploads to Habitat server
 - Shows distance and direction to balloon
 - Shows balloon and Pi on a map
 - Provides driving directions to the balloon
 - Uploads received image data (SSDV)
 - Support for up to 3 payloads
-
 
 
 LoRa Receiver
@@ -32,6 +37,8 @@ GPS Receiver
 
 Any GPS HAT for the Pi should work fine.
 
+Any USB GPS should also work fine.
+
 
 
 
@@ -45,7 +52,7 @@ Installation
 - After reboot, run Raspberry Pi Configuration:
   - Set the hostname
   - Enable these interfaces: SSH, VNC, SPI, Serial (no console)
-- Disable bluetooth:
+- Disable bluetooth (only needed if you are using a GPS HAT):
   - edit /boot/config.txt
   - append this line: dtoverlay=pi3-disable-bt
   - save the file
@@ -85,6 +92,8 @@ If you want spoken announcements at significant evens, e.g. balloon burst, click
 
 ### GPS Settings ###
 
+For a GPS HAT, the "device" box MUST be empty.  For a USB GPS, enter the Linux device name for that device.  e.g. /dev/ttyACM1
+
 Enter chase car ID - a unique name for your vehicle when chasing the balloon.  This is used to place your position on the habhub map.
 
 Set the period between chase car uploads e.g. 30 (seconds)
@@ -116,7 +125,7 @@ Click "Enable SSDV Upload" to upload balloon imagery to habhub.
 
 ### LoRa USB Settings ###
 
-Device:  The device name e.g. /dev/ttyUSB0 for the LoRaGo device.
+Device:  The device name e.g. /dev/ttyACM0 for the LoRaGo device.
 
 Frequency:	This sets the frequency for LoRa module.
 

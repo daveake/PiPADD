@@ -485,7 +485,7 @@ object frmMain: TfrmMain
         WidthStyle = ssPercent
         WidthPercent = 4.000000000000000000
       end
-      object lblLoRaStatus1: TWebLabel
+      object lblCE0: TWebLabel
         AlignWithMargins = True
         Left = 216
         Top = 0
@@ -675,7 +675,7 @@ object frmMain: TfrmMain
         WidthPercent = 10.000000000000000000
         ExplicitLeft = 768
       end
-      object lblLoRaStatus2: TWebLabel
+      object lblCE1: TWebLabel
         AlignWithMargins = True
         Left = 284
         Top = 0

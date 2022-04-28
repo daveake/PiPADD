@@ -1,23 +1,24 @@
 inherited frmLog: TfrmLog
   object pnlMain: TWebPanel
-    AlignWithMargins = True
-    Left = 6
-    Top = 3
-    Width = 657
-    Height = 381
-    Margins.Left = 6
-    Margins.Right = 0
+    Left = 0
+    Top = 0
+    Width = 663
+    Height = 387
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alClient
     BorderColor = clYellow
     BorderStyle = bsSingle
     Color = clBlack
+    ExplicitLeft = 6
+    ExplicitTop = 3
+    ExplicitWidth = 657
+    ExplicitHeight = 381
     object lstLog: TWebListBox
       Left = 0
       Top = 0
-      Width = 657
-      Height = 381
+      Width = 663
+      Height = 387
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -35,6 +36,8 @@ inherited frmLog: TfrmLog
       ItemIndex = -1
       ParentFont = False
       WidthPercent = 100.000000000000000000
+      ExplicitWidth = 657
+      ExplicitHeight = 381
     end
   end
   object WebSpeechSynthesis1: TWebSpeechSynthesis

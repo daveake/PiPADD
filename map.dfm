@@ -19,7 +19,9 @@ inherited frmMap: TfrmMap
     Options.DefaultLatitude = 51.950300000000000000
     Options.DefaultLongitude = -2.544300000000000000
     Options.DefaultZoomLevel = 12.000000000000000000
+    Options.ShowScaleControl = True
     Options.BackgroundColor = clBlack
+    Options.DisablePOI = False
     ElementContainers = <
       item
         HTML.Strings = (

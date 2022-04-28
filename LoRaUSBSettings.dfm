@@ -1,6 +1,9 @@
 inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
   inherited pnlSettings: TWebPanel
     Height = 166
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 663
     ExplicitHeight = 166
     object WebLabel1: TWebLabel
       Left = 72
@@ -163,16 +166,18 @@ inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
     end
   end
   inherited pnlButtons: TWebPanel
-    Top = 175
-    ExplicitTop = 175
+    Top = 169
+    ExplicitTop = 169
   end
   inherited pnlNotes: TWebPanel
-    Top = 227
-    Height = 157
-    ExplicitTop = 227
-    ExplicitHeight = 157
+    Top = 218
+    Height = 169
+    ExplicitLeft = 0
+    ExplicitTop = 218
+    ExplicitWidth = 663
+    ExplicitHeight = 169
     inherited WebMemo1: TWebMemo
-      Height = 151
+      Height = 163
       Lines.Strings = (
         'Choose the serial device.'
         
@@ -182,9 +187,10 @@ inherited frmLoRaUSBSettings: TfrmLoRaUSBSettings
         
           'The Enable buttons enable uploading telemetry/SSDV from this dev' +
           'ice to '
-        'Habitat.')
-      SelStart = 236
-      ExplicitHeight = 151
+        'Habitat/HABLink.')
+      SelStart = 242
+      ExplicitWidth = 657
+      ExplicitHeight = 163
     end
   end
 end

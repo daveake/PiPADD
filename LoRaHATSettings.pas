@@ -80,7 +80,10 @@ procedure TfrmLoRaHATSettings.btnSaveClick(Sender: TObject);
 begin
     inherited;
 
-    if frmLoRaHAT <> nil then frmLoRaHAT.ProgramDevicesFromSettings;
+    if frmLoRaHAT <> nil then begin
+        frmLoRaHAT.LoadSettings;
+        frmLoRaHAT.ProgramDevicesFromSettings;
+    end;
 end;
 
 procedure TfrmLoRaHATSettings.ButtonClicked(Sender: TObject);

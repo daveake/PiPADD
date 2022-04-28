@@ -4,6 +4,8 @@ inherited frmSettings: TfrmSettings
     Top = 0
     Width = 663
     Height = 37
+    Margins.Left = 0
+    Margins.Right = 0
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     Align = alTop
@@ -13,7 +15,7 @@ inherited frmSettings: TfrmSettings
     Color = clBlack
     object btnLoRaHAT: TWebLabel
       AlignWithMargins = True
-      Left = 216
+      Left = 214
       Top = 0
       Width = 103
       Height = 37
@@ -42,11 +44,11 @@ inherited frmSettings: TfrmSettings
     end
     object btnGeneral: TWebLabel
       AlignWithMargins = True
-      Left = 2
+      Left = 0
       Top = 0
       Width = 103
       Height = 37
-      Margins.Left = 2
+      Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 2
       Margins.Bottom = 0
@@ -67,10 +69,11 @@ inherited frmSettings: TfrmSettings
       WidthStyle = ssPercent
       WidthPercent = 16.700000762939450000
       OnClick = btnGeneralClick
+      ExplicitLeft = 2
     end
     object btnGPS: TWebLabel
       AlignWithMargins = True
-      Left = 109
+      Left = 107
       Top = 0
       Width = 103
       Height = 37
@@ -99,7 +102,7 @@ inherited frmSettings: TfrmSettings
     end
     object btnInternet: TWebLabel
       AlignWithMargins = True
-      Left = 430
+      Left = 428
       Top = 0
       Width = 103
       Height = 37
@@ -128,13 +131,13 @@ inherited frmSettings: TfrmSettings
     end
     object btnUpload: TWebLabel
       AlignWithMargins = True
-      Left = 537
+      Left = 535
       Top = 0
-      Width = 124
+      Width = 128
       Height = 37
       Margins.Left = 2
       Margins.Top = 0
-      Margins.Right = 2
+      Margins.Right = 0
       Margins.Bottom = 0
       Align = alClient
       Alignment = taCenter
@@ -157,7 +160,7 @@ inherited frmSettings: TfrmSettings
     end
     object btnLoRaUSB: TWebLabel
       AlignWithMargins = True
-      Left = 323
+      Left = 321
       Top = 0
       Width = 103
       Height = 37
@@ -187,11 +190,13 @@ inherited frmSettings: TfrmSettings
   end
   object pnlGeneral: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2001'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -201,14 +206,19 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 3
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object pnlGPS: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2002'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -218,14 +228,19 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 2
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object pnlLoRaHAT: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2003'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -235,14 +250,19 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 3
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object pnlInternet: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2004'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -252,14 +272,19 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 3
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object pnlUpload: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2005'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -269,14 +294,19 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 3
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object pnlLoRaUSB: TWebPanel
     AlignWithMargins = True
-    Left = 3
+    Left = 0
     Top = 40
-    Width = 660
-    Height = 344
+    Width = 663
+    Height = 347
+    Margins.Left = 0
     Margins.Right = 0
+    Margins.Bottom = 0
     ElementID = '2006'
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
@@ -286,6 +316,9 @@ inherited frmSettings: TfrmSettings
     ChildOrder = 3
     Color = clBlack
     Visible = False
+    ExplicitLeft = 3
+    ExplicitWidth = 660
+    ExplicitHeight = 344
   end
   object tmrLoad: TWebTimer
     Enabled = False

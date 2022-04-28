@@ -1,13 +1,14 @@
 inherited frmGPS: TfrmGPS
-  Height = 203
+  Height = 100
   OnCreate = MiletusFormCreate
-  ClientHeight = 164
+  ClientHeight = 61
   inherited lblPosition: TWebLabel
-    Top = 40
-    Height = 33
+    Top = 32
+    Height = 26
     Margins.Left = 12
-    ExplicitTop = 40
-    ExplicitHeight = 33
+    Anchors = [akLeft, akTop, akRight]
+    ExplicitTop = 32
+    ExplicitHeight = 26
   end
   inherited lblSource: TWebLabel
     Caption = #160'GPS'

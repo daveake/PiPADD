@@ -131,10 +131,10 @@
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
         <SanitizedProjectName>PiPADD</SanitizedProjectName>
-        <TMSWebMiletusResIconLinuxFile>MiletusLinux.png</TMSWebMiletusResIconLinuxFile>
-        <TMSWebMiletusResIconMacOSFile>MiletusMac.icns</TMSWebMiletusResIconMacOSFile>
         <TMSWebMiletusResIconWindowsFile>MiletusWindows.ico</TMSWebMiletusResIconWindowsFile>
         <TMSWebHTMLFile>PiPADD.html</TMSWebHTMLFile>
+        <TMSWebMiletusResIconMacOSFile>MiletusMac.icns</TMSWebMiletusResIconMacOSFile>
+        <TMSWebMiletusResIconLinuxFile>MiletusLinux.png</TMSWebMiletusResIconLinuxFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DBXInterBaseDriver;ibdacvcl270;SCCS;vclactnband;VCLTMSFNCDashboardPackPkgDXE13;vclFireDAC;TMSFMXCloudPackPkgDEDXE13;bindcompvclsmp;tethering;svnui;FireDACADSDriver;vcltouch;FMXTMSFNCDashboardPackPkgDXE13;vcldb;bindcompfmx;svn;crcontrols270;inetdb;TMSFMXPackPkgDXE13;VCLTMSFNCCloudPackPkgDXE13;fmx;FireDACIBDriver;fmxdae;vcledge;TMSMQTTPkgDXE13;FMXTMSFNCCloudPackPkgDXE13;mydacvcl270;VCLTMSFNCChartPkgDXE13;dbexpress;IndyCore;vclx;dsnap;FireDACCommon;ibdac270;RESTBackendComponents;mydac270;VCLTMSFNCCorePkgDXE13;VCLRESTComponents;soapserver;FMXTMSFNCUIPackPkgDXE13;VCLTMSFNCUIPackPkgDXE13;vclie;FMXfrxDB27;bindengine;DBXMySQLDriver;CloudService;FireDACMySQLDriver;FireDACCommonODBC;FireDACCommonDriver;FMXTMSFNCBloxPkgDXE13;TMSWEBCorePkgLibDXE13;inet;TMSFMXChartPkgDXE13;FMXfs27;IndyIPCommon;bindcompdbx;FMXfrx27;vcl;IndyIPServer;indy10sbridge270;dacvcl270;IndySystem;mydacfmx270;TMSFMXWebOSMapsPkgDXE13;dac270;VCLTMSFNCBloxPkgDXE13;bindcompvclwinx;sbridge270;dsnapcon;FMXfsDB27;FMXfrxDBX27;VCLTMSFNCMapsPkgDXE13;FireDACMSAccDriver;fmxFireDAC;FMXfrxe27;vclimg;FMXTMSFNCCorePkgDXE13;FireDAC;mysqlmon270;FireDACSqliteDriver;FireDACPgDriver;FMXTMSFNCMapsPkgDXE13;TMSWEBCorePkgDXE13;TMSMQTTPkgDEDXE13;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;fmxobj;vclwinx;rtl;TMSFMXCloudPackPkgDXE13;DbxClientDriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;IndyIPClient;ibdacfmx270;bindcompvcl;dbxcds;VclSmp;adortl;TMSmCLPkgDXE13;TMSFMXWebGMapsPkgDXE13;TMSiCLPkgDXE13;dsnapxml;FMXTMSFNCChartPkgDXE13;dbrtl;IndyProtocols;inetdbxpress;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -498,7 +498,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="PiPADD.html" Configuration="Build-Raspberry-Pi" Class="ProjectFile">
+                <DeployFile LocalName="MiletusWindows.ico" Configuration="Build-Win32" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -600,6 +600,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="Win32\Build-Raspberry-Pi\PiPADD.exe" Configuration="Build-Raspberry-Pi" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>PiPADD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="PiPADD.html" Configuration="Debug-Win32" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -612,15 +618,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="MiletusWindows.ico" Configuration="Build-Win32" Class="ProjectFile">
+                <DeployFile LocalName="PiPADD.html" Configuration="Build-Raspberry-Pi" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win32\Build-Raspberry-Pi\PiPADD.exe" Configuration="Build-Raspberry-Pi" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>PiPADD.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
